@@ -130,7 +130,7 @@ window.addEventListener("load", () => {
 
 
 function newVideo(){
-  document.getElementById("vsrc").src = "vid/" + Math.floor((Math.random() * 3970) + 1) + ".mp4";
+  document.getElementById("vsrc").src = "https://raw.githubusercontent.com/ondersumer07/ondersumer07.github.io/master/vid/" + Math.floor((Math.random() * 3970) + 1) + ".mp4";
   document.getElementById("videoEl").load();
 }
 
