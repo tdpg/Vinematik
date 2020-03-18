@@ -32,6 +32,6 @@
   "start_url": "/vinematik",
   "background_color": "#00adb5",
   "display": "standalone",
-  "scope": "/",
+  "scope": "/vinematik",
   "theme_color": "#00adb5"
 }
