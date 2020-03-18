@@ -29,9 +29,9 @@
       "sizes": "32x32"
     }
   ],
-  "start_url": "/vinematik",
+  "start_url": "https://ondersumer07.github.io/vinematik/",
   "background_color": "#00adb5",
   "display": "standalone",
-  "scope": "/vinematik",
+  "scope": "https://ondersumer07.github.io/vinematik/",
   "theme_color": "#00adb5"
 }
