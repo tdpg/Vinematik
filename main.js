@@ -112,8 +112,13 @@
 
 }(window, document));
 
-//Main.js
 
+
+// MAIN.JS //
+
+
+
+// Load the service worker and register it
 window.addEventListener("load", () => {
   registerSW();
 });
@@ -129,15 +134,15 @@ async function registerSW() {
 }
 
 
-
-
+// Load the new video on the first load
 window.addEventListener("load", () => {
   newVideo();
 });
 
+// Video source for getting videos
+const srcRaw = "https://raw.githubusercontent.com/ondersumer07/vinematik-videos/master/vid/";
 
-
-
+// Create the random ids for videos to load
 let videoids = []
 
 function randomNum() {
@@ -145,52 +150,24 @@ function randomNum() {
   return rando;
 };
 
+// New video section
 
-
+// Push the new video source to the HTML and push the ID to the array
 function newVideo() {
   let videoid = randomNum()
-  document.getElementById("vsrc").src = "https://raw.githubusercontent.com/ondersumer07/vinematik-videos/master/vid/" + videoid + ".mp4";
+  document.getElementById("vsrc").src = srcRaw + videoid + ".mp4";
   document.getElementById("videoEl").load();
   videoids.push(videoid);
   console.log(videoids);
   console.log(videoids.last());
 };
 
-
-// PREVIOUS VIDEO
-
-// add new last() method:
-if (!Array.prototype.last) {
-  Array.prototype.last = function() {
-    return this[this.length - 2];
-  };
-};
-
-function prevVideo() {
-  document.getElementById("vsrc").src = "https://raw.githubusercontent.com/ondersumer07/vinematik-videos/master/vid/" + videoids.last() + ".mp4";
-  document.getElementById("videoEl").load();
-  videoids.push(videoids.last());
-}
-
-document.addEventListener("keydown", function(e) {
-  const key = event.key;
-  switch (key) {
-    case "ArrowLeft":
-      prevVideo()
-      break;
-    default:
-
-  }
+// Start a new video by swiping left
+document.addEventListener('swiped-left', function(e) {
+  newVideo()
 });
 
-document.addEventListener('swiped-right', function(e) {
-  prevVideo()
-});
-
-// ENDING
-
-document.getElementById("videoEl").addEventListener("ended", newVideo, false);
-
+// Start a new video by cliking right arrow key
 document.addEventListener("keydown", function(e) {
   const key = event.key;
   switch (key) {
@@ -202,6 +179,40 @@ document.addEventListener("keydown", function(e) {
   }
 });
 
-document.addEventListener('swiped-left', function(e) {
-  newVideo()
+
+
+// Previous video section
+
+// Add new last() method
+if (!Array.prototype.last) {
+  Array.prototype.last = function() {
+    return this[this.length - 2];
+  };
+};
+
+// Function for going to the previous video
+function prevVideo() {
+  document.getElementById("vsrc").src = srcRaw + videoids.last() + ".mp4";
+  document.getElementById("videoEl").load();
+  videoids.push(videoids.last());
+}
+
+// Go back to the previous video by pressing left arrow button
+document.addEventListener("keydown", function(e) {
+  const key = event.key;
+  switch (key) {
+    case "ArrowLeft":
+      prevVideo()
+      break;
+    default:
+
+  }
 });
+
+// Go back to the previous video by swiping right
+document.addEventListener('swiped-right', function(e) {
+  prevVideo()
+});
+
+// Start a new video when the current one ended
+document.getElementById("videoEl").addEventListener("ended", newVideo, false);
