@@ -370,6 +370,8 @@ a {
     margin: 4% 0;
     font-size: 1.5rem;
     width: 100%;
+    padding-left: 0;
+    padding-right: 0;
   }
 
 
@@ -404,7 +406,7 @@ a {
   }
 
   .btn-next {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     width: 100%;
     padding: 1% 0;
     margin: 0;
@@ -429,6 +431,8 @@ a {
     margin: 4% 0;
     font-size: 1.2rem;
     width: 100%;
+    padding-left: 0;
+    padding-right: 0;
   }
 
   #btn-install-mobile {
@@ -436,6 +440,8 @@ a {
     margin:0;
     font-size: 1.2rem;
     width: 100%;
+    padding-left: 0;
+    padding-right: 0;
   }
 
 }
