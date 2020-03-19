@@ -139,7 +139,7 @@ a {
 .video {
   display: block;
   margin: 2% 0;
-  width: 81%;
+  width: 75%;
   height: 100%;
 }
 
@@ -158,11 +158,13 @@ a {
 .skip-buttons{
   display: flex;
   flex-direction: column;
+  width: 21%;
 }
 
 .btn-skip {
   margin-top: 3%;
   margin-bottom: 3%;
+
 }
 
 .small-desktop {
@@ -314,6 +316,7 @@ a {
 
   #btn-prev {
     margin-right: 2%;
+    margin-left: 0;
   }
 
 }
