@@ -2,6 +2,20 @@
 <html lang="tr">
 
 <head>
+  <!-- GOOGLE ANALYTICS CODE -->
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161420123-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-161420123-1');
+  </script>
+
   <!-- MANIFEST -->
   <link rel='manifest' href='./manifest.json'>
 
@@ -91,8 +105,8 @@
 
 
         <div class="skip-buttons">
-        <a href="#" id="btn-next" class="btn-next btn-light btn-skip" onclick="newVideo()">Yeni Vine <i class="fas fa-angle-right"></i></a>
-        <a href="#" id="btn-prev" class="btn-next btn-light btn-skip" onclick="prevVideo()"><i class="fas fa-angle-left"></i> Önceki Vine</a>
+          <a href="#" id="btn-next" class="btn-next btn-light btn-skip" onclick="newVideo()">Yeni Vine <i class="fas fa-angle-right"></i></a>
+          <a href="#" id="btn-prev" class="btn-next btn-light btn-skip" onclick="prevVideo()"><i class="fas fa-angle-left"></i> Önceki Vine</a>
         </div>
 
 
