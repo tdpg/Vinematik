@@ -27,6 +27,15 @@
   <meta name="msapplication-TileColor" content="#00adb5">
   <meta name="theme-color" content="#00adb5">
 
+  <!-- APPLE SPLASH SCREENS -->
+  <link rel="apple-touch-startup-image" href="images/splash/launch-640x1136-compressed.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="images/splash/launch-750x1294-compressed.jpg" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="images/splash/launch-1242x2148-compressed.jpg" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="images/splash/launch-1125x2436-compressed.jpg" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="images/splash/launch-1536x2048-compressed.jpg" media="(min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="images/splash/launch-1668x2224-compressed.jpg" media="(min-device-width: 834px) and (max-device-width: 834px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)">
+  <link rel="apple-touch-startup-image" href="images/splash/launch-2048x2732-compressed.jpg" media="(min-device-width: 1024px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)">
+
   <!-- META TAGS -->
   <meta name="description" content="Daima güncel ve tamamen rastgele vine izleyebileceğiniz sizi her vinecıyla tanıştırıp eğlenceli vakit geçirmenizi sağlayacak bir vine uygulaması!" />
   <meta name="keywords" content="vine, vinematik, vine izle, vine izleme uygulaması, reklamsız vine, sınırsız vine, komik video, güncel vine, yeni vine, rastgele vine">
@@ -72,8 +81,11 @@
 
 </head>
 
+
+<!-- BODY START -->
 <body>
 
+<!-- HEADER -->
   <div class="main-container">
 
     <div class="header">
@@ -93,37 +105,39 @@
 
     </div>
 
-
+<!-- VIDEO SECTION -->
     <section id="video-section">
-
+<!-- VIDEO -->
       <div class="vid">
         <p class="small-mobile"><i>Sola kaydırarak bir sonraki vine'a, sağa kaydırarak bir önceki vine'a geçebilirsin!</i></p>
-        <video class="video" height="720" width="1280" controls id="videoEl" autoplay playsinline>
+        <video class="video" height="720" width="1280" controls id="videoEl" autoplay playsinline poster="images/poster-compressed.jpg">
           <source id="vsrc" type='video/mp4' />
           Please update your browser.
         </video>
 
-
+<!-- SKIP BUTTONS -->
         <div class="skip-buttons">
           <a href="#" id="btn-next" class="btn-next btn-light btn-skip" onclick="newVideo()">Yeni Vine <i class="fas fa-angle-right"></i></a>
           <a href="#" id="btn-prev" class="btn-next btn-light btn-skip" onclick="prevVideo()"><i class="fas fa-angle-left"></i> Önceki Vine</a>
         </div>
 
-
+<!-- SEND VINE BUTTON -->
         <a class="btn-light btn-outline-light btn-vine" id="btn-mobile" href="https://forms.gle/HfHbjrFVALLm3wGt8" target="_blank">Vine Gönder</a>
 
         <a id="btn-install-mobile" class="btn-light btn-outline-light btn-vine" href="guide.html">Uygulamayı indir <i class="fas fa-arrow-circle-down"></i></a>
+
+<!-- GUIDES -->
         <p class="small-laptop"><i>Sağ ok tuşuna basarak bir sonraki vine'a, sol ok tuşuna basarak bir önceki vine'a geçebilirsin!</i></p>
       </div>
       <p class="small-desktop"><i>Sağ ok tuşuna basarak bir sonraki vine'a, sol ok tuşuna basarak bir önceki vine'a geçebilirsin!</i></p>
     </section>
 
 
-
   </div>
-
+<!-- JS FILES -->
   <script src="sw.js"></script>
   <script src="main.js"></script>
+
 </body>
 
 </html>
