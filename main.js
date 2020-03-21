@@ -142,11 +142,9 @@ window.addEventListener("load", () => {
 // Video source for getting videos
 const srcRaw = "https://raw.githubusercontent.com/ondersumer07/vinematik-videos/master/vid/";
 
-// Detect safari
+// Detect iOS and if it is, add the crossorigin to the video player so that it is working as expected
   if (navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Mac') != -1 && navigator.userAgent.indexOf('Chrome') == -1){
-    name = "Safari"
-    alert("Merhaba iOS kullanıcısı, Apple kaynaklı bir problemden dolayı şu an için uygulamamız çalışmıyor. Biz onunla uğraşırken senden vineları web tarayıcından izlemeni rica ediyoruz.");
-    console.log("Safari")
+    document.getElementById("videoEl").setAttribute("crossorigin", "true");
 };
 
 // Create the random ids for videos to load
