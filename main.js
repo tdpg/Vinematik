@@ -136,8 +136,18 @@ async function registerSW() {
 
 // Load the new video on the first load
 window.addEventListener("load", () => {
-  newVideo();
+  newVideoOnLoad();
 });
+
+// Push the new video source to the HTML and push the ID to the array
+function newVideoOnLoad() {
+  let videoid = randomNum()
+  document.getElementById("vsrc").src = srcRaw + videoid + ".mp4";
+  document.getElementById("videoEl").load();
+  videoids.push(videoid);
+  console.log(videoids);
+  console.log(videoids.last());
+};
 
 // Video source for getting videos
 const srcRaw = "https://raw.githubusercontent.com/ondersumer07/vinematik-videos/master/vid/";
@@ -162,6 +172,7 @@ function newVideo() {
   let videoid = randomNum()
   document.getElementById("vsrc").src = srcRaw + videoid + ".mp4";
   document.getElementById("videoEl").load();
+  document.getElementById("videoEl").setAttribute("poster", "images/poster-compressed.jpg");
   videoids.push(videoid);
   console.log(videoids);
   console.log(videoids.last());
