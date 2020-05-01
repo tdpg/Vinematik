@@ -142,7 +142,6 @@ function getVine() {
   let url = window.location.href;
   let all = url.length;
   let vineNumber = url.slice(23, all + 1);
-  console.log(vineNumber);
   return vineNumber;
 }
 
@@ -152,6 +151,7 @@ function newVideoShared() {
   document.getElementById("vsrc").src = srcRaw + vineNumber + ".mp4";
   document.getElementById("videoEl").load();
   window.history.pushState("", "", "/");
+  videoids.push(parseInt(vineNumber));
 }
 
 // Get the link dynamically for sharing
