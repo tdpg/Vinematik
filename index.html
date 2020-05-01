@@ -1,143 +1,297 @@
 <!DOCTYPE html>
 <html lang="tr">
+  <head>
+    <!-- GOOGLE ANALYTICS CODE -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-161420123-1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
 
-<head>
-  <!-- GOOGLE ANALYTICS CODE -->
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-161420123-1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
+      gtag("config", "UA-161420123-1");
+    </script>
 
-    gtag('config', 'UA-161420123-1');
-  </script>
+    <!-- MANIFEST -->
+    <link rel="manifest" href="./manifest.json" />
 
-  <!-- MANIFEST -->
-  <link rel='manifest' href='./manifest.json'>
+    <!-- ICONS AND THEME COLORS -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/images/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/images/favicon-16x16.png"
+    />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#00adb5" />
+    <meta name="msapplication-TileColor" content="#00adb5" />
+    <meta name="theme-color" content="#00adb5" />
 
-  <!-- ICONS AND THEME COLORS -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
-  <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <link rel="mask-icon" href="safari-pinned-tab.svg" color="#00adb5">
-  <meta name="msapplication-TileColor" content="#00adb5">
-  <meta name="theme-color" content="#00adb5">
+    <!-- APPLE SPLASH SCREENS -->
+    <link
+      rel="apple-touch-startup-image"
+      href="images/splash/launch-640x1136-compressed.jpg"
+      media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="images/splash/launch-750x1294-compressed.jpg"
+      media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="images/splash/launch-1242x2148-compressed.jpg"
+      media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="images/splash/launch-1125x2436-compressed.jpg"
+      media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="images/splash/launch-1536x2048-compressed.jpg"
+      media="(min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="images/splash/launch-1668x2224-compressed.jpg"
+      media="(min-device-width: 834px) and (max-device-width: 834px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)"
+    />
+    <link
+      rel="apple-touch-startup-image"
+      href="images/splash/launch-2048x2732-compressed.jpg"
+      media="(min-device-width: 1024px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)"
+    />
 
-  <!-- APPLE SPLASH SCREENS -->
-  <link rel="apple-touch-startup-image" href="images/splash/launch-640x1136-compressed.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="images/splash/launch-750x1294-compressed.jpg" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="images/splash/launch-1242x2148-compressed.jpg" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="images/splash/launch-1125x2436-compressed.jpg" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="images/splash/launch-1536x2048-compressed.jpg" media="(min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="images/splash/launch-1668x2224-compressed.jpg" media="(min-device-width: 834px) and (max-device-width: 834px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="images/splash/launch-2048x2732-compressed.jpg" media="(min-device-width: 1024px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)">
+    <!-- META TAGS -->
+    <meta
+      name="description"
+      content="Daima güncel ve tamamen rastgele vine izleyebileceğiniz sizi her vinecıyla tanıştırıp eğlenceli vakit geçirmenizi sağlayacak bir vine uygulaması!"
+    />
+    <meta
+      name="keywords"
+      content="vine, vinematik, vine izle, vine izleme uygulaması, reklamsız vine, sınırsız vine, komik video, güncel vine, yeni vine, rastgele vine"
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="TR" />
+    <meta name="url" content="https://vinematik.com" />
 
-  <!-- META TAGS -->
-  <meta name="description" content="Daima güncel ve tamamen rastgele vine izleyebileceğiniz sizi her vinecıyla tanıştırıp eğlenceli vakit geçirmenizi sağlayacak bir vine uygulaması!" />
-  <meta name="keywords" content="vine, vinematik, vine izle, vine izleme uygulaması, reklamsız vine, sınırsız vine, komik video, güncel vine, yeni vine, rastgele vine">
-  <meta name="robots" content="index, follow">
-  <meta name="language" content="TR">
-  <meta name="url" content="https://vinematik.com">
+    <!-- OG META TAGS -->
+    <meta
+      name="og:title"
+      content="Vinematik | Daima güncel vine izleme sitesi."
+    />
+    <meta name="og:type" content="video.other" />
+    <meta name="og:url" content="https://vinematik.com" />
+    <meta name="og:image" content="/images/android-chrome-512x512.png" />
+    <meta name="og:site_name" content="Vinematik" />
+    <meta
+      name="og:description"
+      content="Daima güncel ve tamamen rastgele vine izleyebileceğiniz sizi her vinecıyla tanıştırıp eğlenceli vakit geçirmenizi sağlayacak bir vine uygulaması!"
+    />
 
-  <!-- OG META TAGS -->
-  <meta name="og:title" content="Vinematik | Daima güncel vine izleme sitesi." />
-  <meta name="og:type" content="video.other" />
-  <meta name="og:url" content="https://vinematik.com" />
-  <meta name="og:image" content="/images/android-chrome-512x512.png" />
-  <meta name="og:site_name" content="Vinematik" />
-  <meta name="og:description" content="Daima güncel ve tamamen rastgele vine izleyebileceğiniz sizi her vinecıyla tanıştırıp eğlenceli vakit geçirmenizi sağlayacak bir vine uygulaması!" />
+    <!-- OG TWITTER META TAGS -->
+    <meta
+      name="twitter:card"
+      content="Daima güncel ve tamamen rastgele vine izleyebileceğiniz sizi her vinecıyla tanıştırıp eğlenceli vakit geçirmenizi sağlayacak bir vine uygulaması!"
+    />
+    <meta property="og:url" content="https://vinematik.com" />
+    <meta
+      property="og:title"
+      content="Vinematik | Daima güncel vine izleme sitesi."
+    />
+    <meta
+      property="og:description"
+      content="Daima güncel ve tamamen rastgele vine izleyebileceğiniz sizi her vinecıyla tanıştırıp eğlenceli vakit geçirmenizi sağlayacak bir vine uygulaması!"
+    />
+    <meta
+      property="og:image"
+      content="https://raw.githubusercontent.com/tdpg/Vinematik/master/images/android-chrome-512x512.png"
+    />
 
-  <!-- OG TWITTER META TAGS -->
-  <meta name="twitter:card" content="Daima güncel ve tamamen rastgele vine izleyebileceğiniz sizi her vinecıyla tanıştırıp eğlenceli vakit geçirmenizi sağlayacak bir vine uygulaması!" />
-  <meta property="og:url" content="https://vinematik.com" />
-  <meta property="og:title" content="Vinematik | Daima güncel vine izleme sitesi." />
-  <meta property="og:description" content="Daima güncel ve tamamen rastgele vine izleyebileceğiniz sizi her vinecıyla tanıştırıp eğlenceli vakit geçirmenizi sağlayacak bir vine uygulaması!" />
-  <meta property="og:image" content="https://raw.githubusercontent.com/tdpg/Vinematik/master/images/android-chrome-512x512.png" />
+    <!-- APPLE META TAGS -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta content="yes" name="apple-touch-fullscreen" />
 
-  <!-- APPLE META TAGS -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta content="yes" name="apple-touch-fullscreen" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- TITLE -->
+    <title>Vinematik | Daima güncel vine izleme sitesi.</title>
 
-  <!-- TITLE -->
-  <title>Vinematik | Daima güncel vine izleme sitesi.</title>
+    <!-- LINKS AND SCRIPTS -->
+    <script
+      src="https://kit.fontawesome.com/fcea854313.js"
+      crossorigin="anonymous"
+    ></script>
 
-  <!-- LINKS AND SCRIPTS -->
-  <script src="https://kit.fontawesome.com/fcea854313.js" crossorigin="anonymous"></script>
+    <link rel="icon" href="images/favicon.ico" type="image/png" />
 
-  <link rel="icon" href="images/favicon.ico" type="image/png" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Inter:400,600,800|Ubuntu:700&display=swap"
+      rel="stylesheet"
+    />
 
-  <link href="https://fonts.googleapis.com/css?family=Inter:400,600,800|Ubuntu:700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
 
-  <link rel="stylesheet" href="css/style.css">
+  <!-- BODY START -->
+  <body>
+    <!-- HEADER -->
+    <div class="main-container">
+      <div class="header">
+        <div class="header-items">
+          <h1 class="header-title"><a href="index.html">Vinematik</a></h1>
 
+          <div class="header-buttons">
+            <div class="dropdown">
+              <a
+                onclick="dropdownShow()"
+                class="btn-light btn-outline-light btn-vine drop-btn"
+                >Paylaş <i class="fas fa-angle-down"></i
+              ></a>
+              <div class="share">
+                <a
+                  class="btn-light btn-outline-light btn-vine btn-share share-cb"
+                  href=""
+                  target="_blank"
+                  onclick="getLinkCB()"
+                  ><i class="far fa-copy fa--share"></i> Linki Kopyala</a
+                >
+                <a
+                  class="btn-light btn-outline-light btn-vine btn-share share-wp"
+                  href=""
+                  target="_blank"
+                  onclick="getLinkWP()"
+                  ><i class="fab fa-whatsapp fa--share"></i> Whatsapp</a
+                >
+                <a
+                  class="btn-light btn-outline-light btn-vine btn-share share-tw"
+                  href=""
+                  target="_blank"
+                  onclick="getLinkTW()"
+                  ><i class="fab fa-twitter fa--share"></i> Twitter</a
+                >
+              </div>
+            </div>
 
-</head>
-
-
-<!-- BODY START -->
-<body>
-
-<!-- HEADER -->
-  <div class="main-container">
-
-    <div class="header">
-
-      <div class="header-items">
-        <h1 class="header-title"><a href="index.html">Vinematik</a></h1>
-
-        <div class="header-buttons">
-
-          <a class="btn-light btn-outline-light btn-vine" href="https://forms.gle/HfHbjrFVALLm3wGt8" target="_blank">Vine Gönder</a>
-
-          <a id="btn-install" class="btn-light btn-outline-light btn-vine" href="guide.html">Uygulamayı indir <i class="fas fa-arrow-circle-down"></i></a>
-
+            <a
+              id="btn-install"
+              class="btn-light btn-outline-light btn-vine"
+              href="guide.html"
+              >Uygulamayı indir <i class="fas fa-arrow-circle-down"></i
+            ></a>
+          </div>
         </div>
-
       </div>
 
+      <!-- VIDEO SECTION -->
+      <section id="video-section">
+        <!-- VIDEO -->
+        <div class="vid">
+          <p class="small-mobile">
+            <i
+              >Sola kaydırarak bir sonraki vine'a, sağa kaydırarak bir önceki
+              vine'a geçebilirsin!</i
+            >
+          </p>
+          <video
+            class="video"
+            height="720"
+            width="1280"
+            controls
+            id="videoEl"
+            autoplay
+            playsinline
+          >
+            <source id="vsrc" type="video/mp4" />
+            Please update your browser.
+          </video>
+
+          <!-- SKIP BUTTONS -->
+          <div class="skip-buttons">
+            <a
+              href="#"
+              id="btn-next"
+              class="btn-next btn-light btn-skip"
+              onclick="newVideo()"
+              >Yeni Vine <i class="fas fa-angle-right"></i
+            ></a>
+            <a
+              href="#"
+              id="btn-prev"
+              class="btn-next btn-light btn-skip"
+              onclick="prevVideo()"
+              ><i class="fas fa-angle-left"></i> Önceki Vine</a
+            >
+          </div>
+
+          <a
+            id="btn-install-mobile"
+            class="btn-light btn-outline-light btn-vine"
+            href="guide.html"
+            >Uygulamayı indir <i class="fas fa-arrow-circle-down"></i
+          ></a>
+
+          <!-- GUIDES -->
+          <p class="small-laptop">
+            <i
+              >Sağ ok tuşuna basarak bir sonraki vine'a, sol ok tuşuna basarak
+              bir önceki vine'a geçebilirsin!</i
+            >
+          </p>
+
+          <!-- SHARE VINE MOBILE -->
+          <div class="share-mobile">
+            <a
+              href=""
+              class="btn-outline-light btn-share-mobile share-cb"
+              onclick="getLinkCB()"
+            >
+              <i class="far fa-copy btn-logo-mobile"></i>
+            </a>
+
+            <a
+              href=""
+              class="btn-outline-light btn-share-mobile share-wp"
+              onclick="getLinkWP()"
+            >
+              <i class="fab fa-whatsapp btn-logo-mobile"></i>
+            </a>
+
+            <a
+              href=""
+              class="btn-outline-light btn-share-mobile share-tw"
+              onclick="getLinkTW()"
+            >
+              <i class="fab fa-twitter btn-logo-mobile"></i>
+            </a>
+          </div>
+        </div>
+        <p class="small-desktop">
+          <i
+            >Sağ ok tuşuna basarak bir sonraki vine'a, sol ok tuşuna basarak bir
+            önceki vine'a geçebilirsin!</i
+          >
+        </p>
+      </section>
     </div>
-
-<!-- VIDEO SECTION -->
-    <section id="video-section">
-<!-- VIDEO -->
-      <div class="vid">
-        <p class="small-mobile"><i>Sola kaydırarak bir sonraki vine'a, sağa kaydırarak bir önceki vine'a geçebilirsin!</i></p>
-        <video class="video" height="720" width="1280" controls id="videoEl" autoplay playsinline>
-          <source id="vsrc" type='video/mp4' />
-          Please update your browser.
-        </video>
-
-<!-- SKIP BUTTONS -->
-        <div class="skip-buttons">
-          <a href="#" id="btn-next" class="btn-next btn-light btn-skip" onclick="newVideo()">Yeni Vine <i class="fas fa-angle-right"></i></a>
-          <a href="#" id="btn-prev" class="btn-next btn-light btn-skip" onclick="prevVideo()"><i class="fas fa-angle-left"></i> Önceki Vine</a>
-        </div>
-
-<!-- SEND VINE BUTTON -->
-        <a class="btn-light btn-outline-light btn-vine" id="btn-mobile" href="https://forms.gle/HfHbjrFVALLm3wGt8" target="_blank">Vine Gönder</a>
-
-        <a id="btn-install-mobile" class="btn-light btn-outline-light btn-vine" href="guide.html">Uygulamayı indir <i class="fas fa-arrow-circle-down"></i></a>
-
-<!-- GUIDES -->
-        <p class="small-laptop"><i>Sağ ok tuşuna basarak bir sonraki vine'a, sol ok tuşuna basarak bir önceki vine'a geçebilirsin!</i></p>
-      </div>
-      <p class="small-desktop"><i>Sağ ok tuşuna basarak bir sonraki vine'a, sol ok tuşuna basarak bir önceki vine'a geçebilirsin!</i></p>
-    </section>
-
-
-  </div>
-<!-- JS FILES -->
-  <script src="sw.js"></script>
-  <script src="main.js"></script>
-
-</body>
-
+    <!-- JS FILES -->
+    <script src="sw.js"></script>
+    <script src="main.js"></script>
+  </body>
 </html>
