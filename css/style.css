@@ -23,6 +23,7 @@ a {
 
 a:hover {
   color: #00adb5;
+  transition: 0.3s ease-in-out;
 }
 
 /* MAIN CSS */
@@ -47,6 +48,12 @@ a:hover {
   color: #eeeeee;
   margin: 0;
   display: inline-block;
+  transition: 0.3s ease-in-out;
+}
+
+.header-title:hover {
+  color: #00adb5;
+  transition: 0.3s ease-in-out;
 }
 
 /* BTN VINE */

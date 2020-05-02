@@ -161,6 +161,7 @@ if (!Array.prototype.realLast) {
   };
 }
 
+// Whatsapp
 function getLinkWP() {
   let vineNumber = videoids.realLast();
   let baseURL =
@@ -170,6 +171,7 @@ function getLinkWP() {
   document.querySelector(".share-wp").click();
 }
 
+// Twitter
 function getLinkTW() {
   let vineNumber = videoids.realLast();
   let baseURL =
@@ -191,10 +193,10 @@ function getLinkCB() {
   changeIcon(copyIcon);
   changeIcon(copyIcon2);
   changeText(copyText);
+  dummyClick("asd");
 }
 
 // Delayed changing icon function
-
 function changeIcon(item) {
   item.style.transition = "opacity 0.3s ease-in-out";
   item.style.opacity = 0;
@@ -225,6 +227,7 @@ function changeIcon(item) {
   }, 3000);
 }
 
+// Delayed change text function for desktop
 function changeText(item) {
   item.style.transition = "opacity 0.3s ease-in-out";
   item.style.opacity = 0;
@@ -247,6 +250,7 @@ function changeText(item) {
   }, 3000);
 }
 
+// Real copy function
 function copyToClipboard(text) {
   let dummy = document.createElement("textarea");
   // to avoid breaking orgain page when copying more words
