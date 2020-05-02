@@ -187,8 +187,10 @@ function getLinkCB() {
   copyToClipboard(baseURL);
   let copyIcon = document.querySelector("#copy-btn");
   let copyIcon2 = document.querySelector("#copy-btn2");
+  let copyText = document.querySelector("#share-cb-text");
   changeIcon(copyIcon);
   changeIcon(copyIcon2);
+  changeText(copyText);
 }
 
 // Delayed changing icon function
@@ -219,6 +221,28 @@ function changeIcon(item) {
       item.style.opacity = 1;
       item.classList.add("far");
       item.classList.add("fa-copy");
+    }, 450);
+  }, 3000);
+}
+
+function changeText(item) {
+  item.style.transition = "opacity 0.3s ease-in-out";
+  item.style.opacity = 0;
+  setTimeout(() => {}, 450);
+
+  setTimeout(() => {
+    item.style.transition = "opacity 0.3s ease-in-out";
+    item.style.opacity = 1;
+    item.innerText = "Kopyalandı!";
+  }, 450);
+  setTimeout(() => {
+    item.style.transition = "opacity 0.3s ease-in-out";
+    item.style.opacity = 0;
+    setTimeout(() => {}, 450);
+    setTimeout(() => {
+      item.style.transition = "opacity 0.3s ease-in-out";
+      item.style.opacity = 1;
+      item.innerText = "Linki Kopyala";
     }, 450);
   }, 3000);
 }
