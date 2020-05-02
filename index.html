@@ -158,6 +158,7 @@
           <h1 class="header-title"><a href="index.html">Vinematik</a></h1>
 
           <div class="header-buttons">
+            <!-- DROPDOWN AND SHARE -->
             <div class="dropdown">
               <a
                 onclick="dropdownShow()"
@@ -170,7 +171,8 @@
                   href=""
                   target="_blank"
                   onclick="getLinkCB()"
-                  ><i class="far fa-copy fa--share"></i> Linki Kopyala</a
+                  ><i id="copy-btn2" class="far fa-copy fa--share"></i> Linki
+                  Kopyala</a
                 >
                 <a
                   class="btn-light btn-outline-light btn-vine btn-share share-wp"
@@ -262,7 +264,7 @@
               class="btn-outline-light btn-share-mobile share-cb"
               onclick="getLinkCB()"
             >
-              <i class="far fa-copy btn-logo-mobile"></i>
+              <i id="copy-btn" class="far fa-copy btn-logo-mobile"></i>
             </a>
 
             <a

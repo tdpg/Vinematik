@@ -70,7 +70,7 @@ a:hover {
 }
 
 .share {
-  display: none !important;
+  opacity: 0 !important;
   width: 10%;
   position: absolute;
   z-index: 1;
@@ -81,6 +81,8 @@ a:hover {
   right: 10%;
   background-color: #2e3238;
   border-radius: 0.25rem;
+  transition: opacity 0.5s ease-in-out;
+  pointer-events: none;
 }
 
 .btn-share {
@@ -91,7 +93,9 @@ a:hover {
 }
 
 .show {
-  display: block !important;
+  opacity: 1 !important;
+  transition: opacity 0.3s ease-in-out;
+  pointer-events: all !important;
 }
 
 .fa--share {
@@ -435,6 +439,7 @@ a:hover {
 
   .btn-share-mobile {
     width: 21%;
+    margin-top: 2%;
   }
 
   /* TMQ - REGULAR BUTTON CHANGES */
@@ -488,6 +493,7 @@ a:hover {
 
   .btn-share-mobile {
     width: 20%;
+    margin-top: 1%;
   }
 
   /* TMQ - HIDDEN DESCRIPTIONS */
@@ -543,7 +549,13 @@ a:hover {
   }
 }
 
-@media (max-width: 641px) /* STANDALONE - NOT SHOWING INSTALL BUTTON */ @media all and (display-mode: standalone) {
+@media (max-width: 400px) {
+  .btn-share-mobile {
+    width: 14%;
+  }
+}
+/* STANDALONE - NOT SHOWING INSTALL BUTTON */
+@media all and (display-mode: standalone) {
   #btn-install-mobile {
     display: none;
   }

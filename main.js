@@ -185,6 +185,42 @@ function getLinkCB() {
   let vineNumber = videoids.realLast();
   let baseURL = "https://vinematik.com/?" + vineNumber;
   copyToClipboard(baseURL);
+  let copyIcon = document.querySelector("#copy-btn");
+  let copyIcon2 = document.querySelector("#copy-btn2");
+  changeIcon(copyIcon);
+  changeIcon(copyIcon2);
+}
+
+// Delayed changing icon function
+
+function changeIcon(item) {
+  item.style.transition = "opacity 0.3s ease-in-out";
+  item.style.opacity = 0;
+  setTimeout(() => {
+    item.classList.remove("far");
+    item.classList.remove("fa-copy");
+  }, 450);
+
+  setTimeout(() => {
+    item.style.transition = "opacity 0.3s ease-in-out";
+    item.style.opacity = 1;
+    item.classList.add("fas");
+    item.classList.add("fa-check");
+  }, 450);
+  setTimeout(() => {
+    item.style.transition = "opacity 0.3s ease-in-out";
+    item.style.opacity = 0;
+    setTimeout(() => {
+      item.classList.remove("fas");
+      item.classList.remove("fa-check");
+    }, 450);
+    setTimeout(() => {
+      item.style.transition = "opacity 0.3s ease-in-out";
+      item.style.opacity = 1;
+      item.classList.add("far");
+      item.classList.add("fa-copy");
+    }, 450);
+  }, 3000);
 }
 
 function copyToClipboard(text) {
@@ -312,7 +348,6 @@ function dropdownShow() {
   shareAll[0].classList.toggle("show");
   shareAll[1].classList.toggle("show");
   shareAll[2].classList.toggle("show");
-  shareAll[3].classList.toggle("show");
   console.log(shareAll);
 }
 
