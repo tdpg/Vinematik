@@ -266,7 +266,7 @@ function copyToClipboard(text) {
 
 // Load the new video on the first load
 window.addEventListener("load", () => {
-  if (window.location.href.length > 23) {
+  if (window.location.href.length > 26) {
     newVideoShared();
   } else {
     newVideoOnLoad();
