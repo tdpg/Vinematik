@@ -165,7 +165,7 @@ if (!Array.prototype.realLast) {
 function getLinkWP() {
   let vineNumber = videoids.realLast();
   let baseURL =
-    "https://wa.me/?text=%C4%B0%C5%9Fte%20senin%20i%C3%A7in%20bir%20vine%3A%20https://vinematik.com/?" +
+    "https://wa.me/?text=%C4%B0%C5%9Fte%20senin%20i%C3%A7in%20bir%20vine%3A%20https://vine.mulayim.app/?" +
     vineNumber;
   document.querySelector(".share-wp").setAttribute("href", baseURL);
   document.querySelector(".share-wp").click();
@@ -175,7 +175,7 @@ function getLinkWP() {
 function getLinkTW() {
   let vineNumber = videoids.realLast();
   let baseURL =
-    "https://twitter.com/messages/compose?text=%C4%B0%C5%9Fte%20senin%20i%C3%A7in%20bir%20vine%3A%20https://vinematik.com/?" +
+    "https://twitter.com/messages/compose?text=%C4%B0%C5%9Fte%20senin%20i%C3%A7in%20bir%20vine%3A%20https://vine.mulayim.app/?" +
     vineNumber;
   document.querySelector(".share-tw").setAttribute("href", baseURL);
   document.querySelector(".share-tw").click();
@@ -185,7 +185,7 @@ function getLinkTW() {
 function getLinkCB() {
   event.preventDefault();
   let vineNumber = videoids.realLast();
-  let baseURL = "https://vinematik.com/?" + vineNumber;
+  let baseURL = "https://vine.mulayim.app/?" + vineNumber;
   copyToClipboard(baseURL);
   let copyIcon = document.querySelector("#copy-btn");
   let copyIcon2 = document.querySelector("#copy-btn2");
