@@ -29,9 +29,9 @@
       "sizes": "32x32"
     }
   ],
-  "start_url": "https://vinematik.com",
+  "start_url": "https://vine.mulayim.app",
   "background_color": "#00adb5",
   "display": "standalone",
-  "scope": "https://vinematik.com",
+  "scope": "https://vine.mulayim.app",
   "theme_color": "#00adb5"
 }

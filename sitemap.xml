@@ -6,17 +6,17 @@
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
 <url>
-  <loc>https://vinematik.com/</loc>
+  <loc>https://vine.mulayim.app/</loc>
   <lastmod>2020-03-20T13:15:49+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://vinematik.com/index.html</loc>
+  <loc>https://vine.mulayim.app/index.html</loc>
   <lastmod>2020-03-20T13:15:49+00:00</lastmod>
   <priority>0.90</priority>
 </url>
 <url>
-  <loc>https://vinematik.com/guide.html</loc>
+  <loc>https://vine.mulayim.app/guide.html</loc>
   <lastmod>2020-03-20T13:15:49+00:00</lastmod>
   <priority>0.80</priority>
 </url>
