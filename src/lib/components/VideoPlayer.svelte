@@ -4,13 +4,12 @@
 
 	interface Props {
 		videoId: number;
-		preloadVideoId?: number;
 		onEnded?: () => void;
 		onSwipeLeft?: () => void;
 		onSwipeRight?: () => void;
 	}
 
-	let { videoId, preloadVideoId, onEnded, onSwipeLeft, onSwipeRight }: Props = $props();
+	let { videoId, onEnded, onSwipeLeft, onSwipeRight }: Props = $props();
 
 	const BASE_URL = 'https://raw.githubusercontent.com/ondersumer07/vinematik-videos/master/vid/';
 
@@ -23,7 +22,6 @@
 	let isHovering = $state(false);
 
 	let videoSrc = $derived(`${BASE_URL}${videoId}.mp4`);
-	let preloadSrc = $derived(preloadVideoId ? `${BASE_URL}${preloadVideoId}.mp4` : '');
 
 	// Show native controls on hover (desktop only)
 	let showControls = $derived(isHovering && !paused && !isLoading && !hasError);
@@ -187,9 +185,3 @@
 <div class="mt-3 badge badge-neutral">
 	#{videoId}
 </div>
-
-<!-- Hidden video element to preload next video -->
-{#if preloadSrc}
-	<!-- svelte-ignore a11y_media_has_caption -->
-	<video src={preloadSrc} preload="auto" class="hidden" muted></video>
-{/if}

@@ -4,32 +4,28 @@
 	import Header from '$lib/components/Header.svelte';
 
 	const TOTAL_VIDEOS = 3970;
+	const BASE_URL = 'https://raw.githubusercontent.com/ondersumer07/vinematik-videos/master/vid/';
 
-	function getRandomVideoId(): number {
-		return Math.floor(Math.random() * TOTAL_VIDEOS) + 1;
+	function getRandomVideoId(exclude?: number): number {
+		let id = Math.floor(Math.random() * TOTAL_VIDEOS) + 1;
+		// Avoid generating the same ID as the excluded one
+		while (exclude !== undefined && id === exclude) {
+			id = Math.floor(Math.random() * TOTAL_VIDEOS) + 1;
+		}
+		return id;
 	}
 
-
 	// History management for back/forth navigation
-	let history: number[] = $state([getRandomVideoId()]);
+	const initialVideoId = getRandomVideoId();
+	let history: number[] = $state([initialVideoId]);
 	let historyIndex = $state(0);
 
-	// Preloading: always have the next video ready
-	let preloadedNextId = $state(getRandomVideoId());
+	// Preloading: always have the next random video ready
+	// This is ONLY for the "random" action, not for history navigation
+	let preloadedNextId = $state(getRandomVideoId(initialVideoId));
 
 	let currentVideoId = $derived(history[historyIndex]);
-
-	// Preload the next video whenever current video changes
-	$effect(() => {
-		// Access currentVideoId to create dependency
-		const _ = currentVideoId;
-		// Generate a new preload ID (different from current)
-		let nextId = getRandomVideoId();
-		while (nextId === currentVideoId) {
-			nextId = getRandomVideoId();
-		}
-		preloadedNextId = nextId;
-	});
+	let preloadUrl = $derived(`${BASE_URL}${preloadedNextId}.mp4`);
 
 	function goToRandomVideo() {
 		// Use the preloaded video ID for instant playback
@@ -37,7 +33,8 @@
 		// Remove any forward history when going to a new random video
 		history = [...history.slice(0, historyIndex + 1), newId];
 		historyIndex = history.length - 1;
-		// Note: the $effect will automatically preload the next video
+		// Generate the next preload (different from the new current video)
+		preloadedNextId = getRandomVideoId(newId);
 	}
 
 	function goBack() {
@@ -67,7 +64,7 @@
 				if (canGoBack) goBack();
 				break;
 			case 'ArrowRight':
-				goToRandomVideo();
+				if (canGoForward) goForward();
 				break;
 			case ' ':
 				event.preventDefault();
@@ -106,7 +103,6 @@
 		{#key currentVideoId}
 			<VideoPlayer
 				videoId={currentVideoId}
-				preloadVideoId={preloadedNextId}
 				onEnded={handleVideoEnded}
 				onSwipeLeft={handleSwipeLeft}
 				onSwipeRight={handleSwipeRight}
@@ -125,17 +121,21 @@
 		<div class="flex flex-wrap justify-center gap-3 text-xs text-base-content/40">
 			<span class="flex items-center gap-1">
 				<kbd class="kbd kbd-xs">←</kbd>
-				<span class="hidden sm:inline">or swipe →</span>
 				prev
 			</span>
 			<span class="flex items-center gap-1">
-				<kbd class="kbd kbd-xs">space</kbd> random
+				<kbd class="kbd kbd-xs">space</kbd>
+				<span class="hidden sm:inline">or swipe</span>
+				random
 			</span>
 			<span class="flex items-center gap-1">
 				<kbd class="kbd kbd-xs">→</kbd>
-				<span class="hidden sm:inline">or swipe ←</span>
 				next
 			</span>
 		</div>
 	</div>
 </main>
+
+<!-- Preload next random video OUTSIDE the {#key} block so it persists -->
+<!-- svelte-ignore a11y_media_has_caption -->
+<video src={preloadUrl} preload="auto" class="hidden" muted></video>
