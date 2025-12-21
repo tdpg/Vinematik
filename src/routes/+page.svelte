@@ -86,11 +86,11 @@
 		goToRandomVideo();
 	}
 
-	// Swipe handlers - match the original behavior
-	// Swipe left = next random video
+	// Swipe handlers
+	// Swipe left = next (forward in history or random)
 	// Swipe right = previous video
 	function handleSwipeLeft() {
-		goToRandomVideo();
+		goForwardOrRandom();
 	}
 
 	function handleSwipeRight() {
@@ -105,10 +105,10 @@
 	<meta name="description" content="Watch random Vine videos from the archive" />
 </svelte:head>
 
-<main class="min-h-screen bg-base-200 flex flex-col items-center justify-center p-4">
+<main class="flex min-h-screen flex-col items-center justify-center bg-base-200 p-4">
 	<Header />
 
-	<div class="flex flex-col items-center gap-4 w-full max-w-2xl">
+	<div class="flex w-full max-w-2xl flex-col items-center gap-4">
 		{#key currentVideoId}
 			<VideoPlayer
 				videoId={currentVideoId}
