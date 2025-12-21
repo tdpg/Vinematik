@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import VideoPlayer from '$lib/components/VideoPlayer.svelte';
 	import NavigationControls from '$lib/components/NavigationControls.svelte';
 	import Header from '$lib/components/Header.svelte';
@@ -16,14 +15,14 @@
 		return id;
 	}
 
-	// Use a fixed ID for SSR to avoid hydration mismatch, then randomize on client
-	const initialVideoId = browser ? getRandomVideoId() : 1;
+	// History management for back/forth navigation
+	const initialVideoId = getRandomVideoId();
 	let history: number[] = $state([initialVideoId]);
 	let historyIndex = $state(0);
 
 	// Preloading: always have the next random video ready
 	// This is ONLY for the "random" action, not for history navigation
-	let preloadedNextId = $state(browser ? getRandomVideoId(initialVideoId) : 2);
+	let preloadedNextId = $state(getRandomVideoId(initialVideoId));
 
 	let currentVideoId = $derived(history[historyIndex]);
 	let preloadUrl = $derived(`${BASE_URL}${preloadedNextId}.mp4`);
