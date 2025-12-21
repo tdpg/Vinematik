@@ -49,6 +49,15 @@
 		}
 	}
 
+	// Go forward in history if available, otherwise go to random
+	function goForwardOrRandom() {
+		if (canGoForward) {
+			goForward();
+		} else {
+			goToRandomVideo();
+		}
+	}
+
 	let canGoBack = $derived(historyIndex > 0);
 	let canGoForward = $derived(historyIndex < history.length - 1);
 
@@ -64,7 +73,7 @@
 				if (canGoBack) goBack();
 				break;
 			case 'ArrowRight':
-				if (canGoForward) goForward();
+				goForwardOrRandom();
 				break;
 			case ' ':
 				event.preventDefault();
@@ -111,9 +120,8 @@
 
 		<NavigationControls
 			{canGoBack}
-			{canGoForward}
 			onPrevious={goBack}
-			onNext={goForward}
+			onNext={goForwardOrRandom}
 			onRandom={goToRandomVideo}
 		/>
 

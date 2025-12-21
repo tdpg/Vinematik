@@ -1,13 +1,12 @@
 <script lang="ts">
 	interface Props {
 		canGoBack: boolean;
-		canGoForward: boolean;
 		onPrevious: () => void;
 		onNext: () => void;
 		onRandom: () => void;
 	}
 
-	let { canGoBack, canGoForward, onPrevious, onNext, onRandom }: Props = $props();
+	let { canGoBack, onPrevious, onNext, onRandom }: Props = $props();
 </script>
 
 <div class="flex items-center gap-2">
@@ -36,10 +35,9 @@
 		</svg>
 	</button>
 
-	<!-- Next button -->
+	<!-- Next button (always enabled - goes forward in history or random) -->
 	<button
 		class="btn btn-circle btn-outline"
-		disabled={!canGoForward}
 		onclick={onNext}
 		title="Next video (→)"
 		aria-label="Next video"
@@ -49,4 +47,3 @@
 		</svg>
 	</button>
 </div>
-
