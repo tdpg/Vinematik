@@ -9,17 +9,35 @@
 		return Math.floor(Math.random() * TOTAL_VIDEOS) + 1;
 	}
 
+
 	// History management for back/forth navigation
 	let history: number[] = $state([getRandomVideoId()]);
 	let historyIndex = $state(0);
 
+	// Preloading: always have the next video ready
+	let preloadedNextId = $state(getRandomVideoId());
+
 	let currentVideoId = $derived(history[historyIndex]);
 
+	// Preload the next video whenever current video changes
+	$effect(() => {
+		// Access currentVideoId to create dependency
+		const _ = currentVideoId;
+		// Generate a new preload ID (different from current)
+		let nextId = getRandomVideoId();
+		while (nextId === currentVideoId) {
+			nextId = getRandomVideoId();
+		}
+		preloadedNextId = nextId;
+	});
+
 	function goToRandomVideo() {
-		const newId = getRandomVideoId();
+		// Use the preloaded video ID for instant playback
+		const newId = preloadedNextId;
 		// Remove any forward history when going to a new random video
 		history = [...history.slice(0, historyIndex + 1), newId];
 		historyIndex = history.length - 1;
+		// Note: the $effect will automatically preload the next video
 	}
 
 	function goBack() {
@@ -86,8 +104,9 @@
 
 	<div class="flex flex-col items-center gap-4 w-full max-w-2xl">
 		{#key currentVideoId}
-			<VideoPlayer 
-				videoId={currentVideoId} 
+			<VideoPlayer
+				videoId={currentVideoId}
+				preloadVideoId={preloadedNextId}
 				onEnded={handleVideoEnded}
 				onSwipeLeft={handleSwipeLeft}
 				onSwipeRight={handleSwipeRight}
