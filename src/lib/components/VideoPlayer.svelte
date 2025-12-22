@@ -7,9 +7,10 @@
 		onEnded?: () => void;
 		onSwipeLeft?: () => void;
 		onSwipeRight?: () => void;
+		onSwipeUp?: () => void;
 	}
 
-	let { videoId, onEnded, onSwipeLeft, onSwipeRight }: Props = $props();
+	let { videoId, onEnded, onSwipeLeft, onSwipeRight, onSwipeUp }: Props = $props();
 
 	const BASE_URL = 'https://raw.githubusercontent.com/ondersumer07/vinematik-videos/master/vid/';
 
@@ -71,7 +72,7 @@
 		}
 	}
 
-	function togglePlay() {
+	export function togglePlay() {
 		if (videoElement) {
 			if (paused) {
 				videoElement.play();
@@ -94,7 +95,8 @@
 		threshold: 50,
 		timeout: 500,
 		onSwipeLeft,
-		onSwipeRight
+		onSwipeRight,
+		onSwipeUp
 	}}
 	onmouseenter={() => (isHovering = true)}
 	onmouseleave={() => (isHovering = false)}

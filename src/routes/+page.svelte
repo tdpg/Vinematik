@@ -61,6 +61,9 @@
 	let canGoBack = $derived(historyIndex > 0);
 	let canGoForward = $derived(historyIndex < history.length - 1);
 
+	// Reference to the video player for play/pause control
+	let videoPlayer: ReturnType<typeof VideoPlayer> | undefined = $state();
+
 	// Keyboard shortcuts
 	function handleKeydown(event: KeyboardEvent) {
 		// Ignore if user is typing in an input
@@ -75,9 +78,13 @@
 			case 'ArrowRight':
 				goForwardOrRandom();
 				break;
+			case 'r':
+			case 'ArrowUp':
+				goToRandomVideo();
+				break;
 			case ' ':
 				event.preventDefault();
-				goToRandomVideo();
+				videoPlayer?.togglePlay();
 				break;
 		}
 	}
@@ -112,10 +119,12 @@
 		<div class="flex w-full flex-col items-center gap-4">
 			{#key currentVideoId}
 				<VideoPlayer
+					bind:this={videoPlayer}
 					videoId={currentVideoId}
 					onEnded={handleVideoEnded}
 					onSwipeLeft={handleSwipeLeft}
 					onSwipeRight={handleSwipeRight}
+					onSwipeUp={goToRandomVideo}
 				/>
 			{/key}
 
@@ -126,21 +135,30 @@
 				onRandom={goToRandomVideo}
 			/>
 
-			<!-- Keyboard/Swipe hints -->
-			<div class="flex flex-wrap justify-center gap-3 text-xs text-base-content/40">
+			<!-- Keyboard hints (desktop) -->
+			<div class="hidden flex-wrap justify-center gap-3 text-xs text-base-content/40 sm:flex">
 				<span class="flex items-center gap-1">
 					<kbd class="kbd kbd-xs">←</kbd>
 					prev
 				</span>
 				<span class="flex items-center gap-1">
 					<kbd class="kbd kbd-xs">space</kbd>
-					<span class="hidden sm:inline">or swipe</span>
+					play/pause
+				</span>
+				<span class="flex items-center gap-1">
+					<kbd class="kbd kbd-xs">r</kbd>
 					random
 				</span>
 				<span class="flex items-center gap-1">
 					<kbd class="kbd kbd-xs">→</kbd>
 					next
 				</span>
+			</div>
+			<!-- Swipe hints (mobile) -->
+			<div class="flex flex-wrap justify-center gap-3 text-xs text-base-content/40 sm:hidden">
+				<span>← prev</span>
+				<span>↑ random</span>
+				<span>next →</span>
 			</div>
 		</div>
 	</div>
