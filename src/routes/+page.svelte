@@ -108,7 +108,7 @@
 <svelte:window onkeydown={handleKeydown} />
 
 <svelte:head>
-	<title>vinematik - random vines</title>
+	<title>vinematik</title>
 	<meta name="description" content="Watch random Vine videos from the archive" />
 </svelte:head>
 
