@@ -24,6 +24,23 @@
 
 	let videoSrc = $derived(`${BASE_URL}${videoId}.mp4`);
 
+	// React to videoId changes - reset state and load new video
+	$effect(() => {
+		// Track videoId to trigger effect
+		const _ = videoId;
+
+		// Reset state for new video
+		isLoading = true;
+		hasError = false;
+		progress = 0;
+		duration = 0;
+
+		// If video element exists, load the new source
+		if (videoElement) {
+			videoElement.load();
+		}
+	});
+
 	// Show native controls on hover (desktop only)
 	let showControls = $derived(isHovering && !paused && !isLoading && !hasError);
 
