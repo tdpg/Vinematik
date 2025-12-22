@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { Spring } from 'svelte/motion';
+	// @ts-expect-error - Plyr types are not perfectly compatible with ESM
+	import Plyr from 'plyr';
+	import 'plyr/dist/plyr.css';
 	import { swipe } from '$lib/actions/swipe';
 
 	interface Props {
@@ -14,83 +16,119 @@
 
 	const BASE_URL = 'https://raw.githubusercontent.com/ondersumer07/vinematik-videos/master/vid/';
 
-	let videoElement: HTMLVideoElement | undefined = $state();
-	let isLoading = $state(true);
+	let containerElement: HTMLDivElement | undefined = $state();
+	let player: Plyr | undefined;
 	let hasError = $state(false);
-	let progress = $state(0);
-	let duration = $state(0);
-	let paused = $state(true);
-	let isHovering = $state(false);
+	let currentLoadedId: number | undefined;
 
-	let videoSrc = $derived(`${BASE_URL}${videoId}.mp4`);
+	function createPlayer(videoEl: HTMLVideoElement) {
+		return new Plyr(videoEl, {
+			controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+			keyboard: { focused: true, global: false },
+			hideControls: true,
+			clickToPlay: true,
+			resetOnEnd: false,
+			loadSprite: true,
+			iconUrl: 'https://cdn.plyr.io/3.8.3/plyr.svg',
+			// Don't force aspect ratio - let video use its natural dimensions
+			ratio: null,
+			// Use our outer container for fullscreen - this persists across source changes!
+			fullscreen: {
+				enabled: true,
+				fallback: true,
+				container: '.plyr-container' // CSS selector, not element!
+			},
+			i18n: {
+				restart: 'Baştan başlat',
+				play: 'Oynat',
+				pause: 'Duraklat',
+				seek: 'Ara',
+				played: 'Oynatıldı',
+				buffered: 'Önbelleğe alındı',
+				currentTime: 'Şu anki zaman',
+				duration: 'Süre',
+				volume: 'Ses',
+				mute: 'Sesi kapat',
+				unmute: 'Sesi aç',
+				enterFullscreen: 'Tam ekran',
+				exitFullscreen: 'Tam ekrandan çık',
+				settings: 'Ayarlar',
+				speed: 'Hız',
+				quality: 'Kalite'
+			}
+		});
+	}
 
-	// Show native controls on hover (desktop only)
-	let showControls = $derived(isHovering && !paused && !isLoading && !hasError);
+	// Set initial source via Plyr API
+	function setSource(id: number) {
+		if (!player) return;
+		player.source = {
+			type: 'video',
+			sources: [
+				{
+					src: `${BASE_URL}${id}.mp4`,
+					type: 'video/mp4'
+				}
+			]
+		};
+	}
 
-	const progressSpring = new Spring(0, { stiffness: 0.1, damping: 0.5 });
-
+	// Initialize Plyr once when container is available
 	$effect(() => {
-		progressSpring.target = progress;
+		if (!containerElement) return;
+
+		const videoEl = containerElement.querySelector('video');
+		if (!videoEl) return;
+
+		// First time setup only
+		if (!player) {
+			player = createPlayer(videoEl);
+
+			player.on('ended', () => onEnded?.());
+			player.on('error', () => {
+				hasError = true;
+			});
+			player.on('playing', () => {
+				hasError = false;
+			});
+
+			// Set initial source
+			setSource(videoId);
+			currentLoadedId = videoId;
+
+			player.play().catch(() => {
+				// Autoplay may be blocked
+			});
+		}
+
+		return () => {
+			player?.destroy();
+			player = undefined;
+			currentLoadedId = undefined;
+		};
 	});
 
-	function handleLoadStart() {
-		isLoading = true;
-		hasError = false;
-	}
-
-	function handleCanPlay() {
-		isLoading = false;
-		videoElement?.play();
-	}
-
-	function handleError() {
-		isLoading = false;
-		hasError = true;
-	}
-
-	function handleTimeUpdate() {
-		if (videoElement && duration > 0) {
-			progress = (videoElement.currentTime / duration) * 100;
+	// Handle video ID changes separately
+	$effect(() => {
+		if (player && videoId !== currentLoadedId) {
+			hasError = false;
+			currentLoadedId = videoId;
+			setSource(videoId);
+			player.play().catch(() => {
+				// Autoplay may be blocked
+			});
 		}
-	}
-
-	function handleLoadedMetadata() {
-		if (videoElement) {
-			duration = videoElement.duration;
-		}
-	}
-
-	function handleVideoClick() {
-		// Only handle click when native controls are not showing
-		// Otherwise, let the native controls handle play/pause
-		if (!showControls && videoElement) {
-			if (paused) {
-				videoElement.play();
-			} else {
-				videoElement.pause();
-			}
-		}
-	}
+	});
 
 	export function togglePlay() {
-		if (videoElement) {
-			if (paused) {
-				videoElement.play();
-			} else {
-				videoElement.pause();
-			}
-		}
-	}
-
-	function handleEnded() {
-		onEnded?.();
+		player?.togglePlay();
 	}
 </script>
 
-<!-- Fixed container to prevent layout shift -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
-	class="group relative aspect-video w-full max-w-2xl overflow-hidden rounded-box bg-base-300 shadow-2xl"
+	bind:this={containerElement}
+	class="plyr-container relative aspect-video w-full max-w-2xl overflow-hidden rounded-box bg-base-300 shadow-2xl"
 	use:swipe={{
 		threshold: 50,
 		timeout: 500,
@@ -98,17 +136,9 @@
 		onSwipeRight,
 		onSwipeUp
 	}}
-	onmouseenter={() => (isHovering = true)}
-	onmouseleave={() => (isHovering = false)}
 >
-	{#if isLoading}
-		<div class="absolute inset-0 z-10 flex items-center justify-center bg-base-300">
-			<span class="loading loading-lg loading-spinner text-primary"></span>
-		</div>
-	{/if}
-
 	{#if hasError}
-		<div class="absolute inset-0 z-10 flex flex-col items-center justify-center gap-4 bg-base-300">
+		<div class="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 bg-base-300">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				class="h-16 w-16 text-error"
@@ -129,61 +159,93 @@
 	{/if}
 
 	<!-- svelte-ignore a11y_media_has_caption -->
-	<video
-		bind:this={videoElement}
-		bind:paused
-		src={videoSrc}
-		class="h-full w-full cursor-pointer object-contain"
-		class:show-controls={showControls}
-		controls={showControls}
-		playsinline
-		onclick={handleVideoClick}
-		onloadstart={handleLoadStart}
-		oncanplay={handleCanPlay}
-		onerror={handleError}
-		ontimeupdate={handleTimeUpdate}
-		onloadedmetadata={handleLoadedMetadata}
-		onended={handleEnded}
-	></video>
-
-	<!-- Progress bar (hidden when native controls are visible) -->
-	<div
-		class="absolute right-0 bottom-0 left-0 h-1 bg-base-100/30 transition-opacity duration-200"
-		class:opacity-0={showControls}
-	>
-		<div class="h-full bg-primary transition-all" style="width: {progressSpring.current}%"></div>
-	</div>
-
-	<!-- Play/Pause overlay -->
-	{#if paused && !isLoading && !hasError}
-		<button
-			class="absolute inset-0 z-5 flex items-center justify-center bg-base-300/30"
-			onclick={togglePlay}
-			aria-label="videoyu oynat"
-		>
-			<div class="btn btn-circle btn-lg btn-primary">
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					class="h-8 w-8"
-					fill="currentColor"
-					viewBox="0 0 24 24"
-				>
-					<path d="M8 5v14l11-7z" />
-				</svg>
-			</div>
-		</button>
-	{/if}
-
-	<!-- Swipe hint overlay (only on touch devices) -->
-	<div
-		class="pointer-events-none absolute top-4 right-4 left-4 flex justify-between opacity-0 transition-opacity peer-active:opacity-100"
-	>
-		<div class="badge badge-ghost badge-sm">← önceki</div>
-		<div class="badge badge-ghost badge-sm">sonraki →</div>
-	</div>
+	<video playsinline></video>
 </div>
 
 <!-- Video ID badge -->
 <div class="mt-3 badge badge-neutral">
 	#{videoId}
 </div>
+
+<style>
+	/* Plyr theme customization using vinematik theme variables */
+	.plyr-container :global(.plyr) {
+		/* Main accent color - uses primary (green) */
+		--plyr-color-main: var(--color-primary);
+
+		/* Video background */
+		--plyr-video-background: var(--color-base-300);
+
+		/* Menu styling */
+		--plyr-menu-background: var(--color-base-200);
+		--plyr-menu-color: var(--color-base-content);
+
+		/* Control colors */
+		--plyr-control-color: var(--color-base-content);
+		--plyr-control-icon-size: 18px;
+
+		/* Range/slider styling */
+		--plyr-range-fill-background: var(--color-primary);
+		--plyr-range-thumb-background: var(--color-primary-content);
+		--plyr-range-thumb-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+
+		/* Tooltip styling */
+		--plyr-tooltip-background: var(--color-base-200);
+		--plyr-tooltip-color: var(--color-base-content);
+		--plyr-tooltip-radius: var(--radius-field);
+
+		/* Badge/time styling */
+		--plyr-badge-background: var(--color-primary);
+		--plyr-badge-text-color: var(--color-primary-content);
+		--plyr-badge-border-radius: var(--radius-field);
+
+		/* Font */
+		--plyr-font-family: inherit;
+		--plyr-font-size-base: 14px;
+
+		height: 100%;
+	}
+
+	.plyr-container :global(.plyr__poster) {
+		background-color: var(--color-base-300);
+	}
+
+	.plyr-container :global(.plyr__video-wrapper) {
+		background: var(--color-base-300);
+		height: 100%;
+	}
+
+	.plyr-container :global(.plyr--video) {
+		border-radius: var(--radius-box);
+		overflow: hidden;
+	}
+
+	/* Ensure video fits within container without cropping */
+	.plyr-container :global(video) {
+		object-fit: contain;
+	}
+
+	/* Control bar background */
+	.plyr-container :global(.plyr__controls) {
+		background: linear-gradient(
+			transparent,
+			color-mix(in srgb, var(--color-base-300) 80%, transparent)
+		);
+	}
+
+	/* Big play button */
+	.plyr-container :global(.plyr__control--overlaid) {
+		background: var(--color-primary);
+		color: var(--color-primary-content);
+	}
+
+	.plyr-container :global(.plyr__control--overlaid:hover),
+	.plyr-container :global(.plyr__control--overlaid:focus) {
+		background: color-mix(in srgb, var(--color-primary) 85%, black);
+	}
+
+	/* Progress bar buffered */
+	.plyr-container :global(.plyr__progress__buffer) {
+		background: color-mix(in srgb, var(--color-base-content) 25%, transparent);
+	}
+</style>

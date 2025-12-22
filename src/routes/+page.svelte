@@ -117,16 +117,14 @@
 		<Header />
 
 		<div class="flex w-full flex-col items-center gap-4">
-			{#key currentVideoId}
-				<VideoPlayer
-					bind:this={videoPlayer}
-					videoId={currentVideoId}
-					onEnded={handleVideoEnded}
-					onSwipeLeft={handleSwipeLeft}
-					onSwipeRight={handleSwipeRight}
-					onSwipeUp={goToRandomVideo}
-				/>
-			{/key}
+			<VideoPlayer
+				bind:this={videoPlayer}
+				videoId={currentVideoId}
+				onEnded={handleVideoEnded}
+				onSwipeLeft={handleSwipeLeft}
+				onSwipeRight={handleSwipeRight}
+				onSwipeUp={goToRandomVideo}
+			/>
 
 			<NavigationControls
 				{canGoBack}
