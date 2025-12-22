@@ -105,41 +105,43 @@
 	<meta name="description" content="Watch random Vine videos from the archive" />
 </svelte:head>
 
-<main class="flex min-h-screen flex-col items-center justify-center bg-base-200 p-4">
-	<Header />
+<main class="flex min-h-screen w-full flex-col items-center justify-center bg-base-200 p-4">
+	<div class="flex w-full max-w-2xl flex-col items-center">
+		<Header />
 
-	<div class="flex w-full max-w-2xl flex-col items-center gap-4">
-		{#key currentVideoId}
-			<VideoPlayer
-				videoId={currentVideoId}
-				onEnded={handleVideoEnded}
-				onSwipeLeft={handleSwipeLeft}
-				onSwipeRight={handleSwipeRight}
+		<div class="flex w-full flex-col items-center gap-4">
+			{#key currentVideoId}
+				<VideoPlayer
+					videoId={currentVideoId}
+					onEnded={handleVideoEnded}
+					onSwipeLeft={handleSwipeLeft}
+					onSwipeRight={handleSwipeRight}
+				/>
+			{/key}
+
+			<NavigationControls
+				{canGoBack}
+				onPrevious={goBack}
+				onNext={goForwardOrRandom}
+				onRandom={goToRandomVideo}
 			/>
-		{/key}
 
-		<NavigationControls
-			{canGoBack}
-			onPrevious={goBack}
-			onNext={goForwardOrRandom}
-			onRandom={goToRandomVideo}
-		/>
-
-		<!-- Keyboard/Swipe hints -->
-		<div class="flex flex-wrap justify-center gap-3 text-xs text-base-content/40">
-			<span class="flex items-center gap-1">
-				<kbd class="kbd kbd-xs">←</kbd>
-				prev
-			</span>
-			<span class="flex items-center gap-1">
-				<kbd class="kbd kbd-xs">space</kbd>
-				<span class="hidden sm:inline">or swipe</span>
-				random
-			</span>
-			<span class="flex items-center gap-1">
-				<kbd class="kbd kbd-xs">→</kbd>
-				next
-			</span>
+			<!-- Keyboard/Swipe hints -->
+			<div class="flex flex-wrap justify-center gap-3 text-xs text-base-content/40">
+				<span class="flex items-center gap-1">
+					<kbd class="kbd kbd-xs">←</kbd>
+					prev
+				</span>
+				<span class="flex items-center gap-1">
+					<kbd class="kbd kbd-xs">space</kbd>
+					<span class="hidden sm:inline">or swipe</span>
+					random
+				</span>
+				<span class="flex items-center gap-1">
+					<kbd class="kbd kbd-xs">→</kbd>
+					next
+				</span>
+			</div>
 		</div>
 	</div>
 </main>
