@@ -123,7 +123,7 @@
 					d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 				/>
 			</svg>
-			<p class="text-base-content/70">Video not found</p>
+			<p class="text-base-content/70">video bulunamadı</p>
 			<p class="text-sm text-base-content/50">#{videoId}</p>
 		</div>
 	{/if}
@@ -159,7 +159,7 @@
 		<button
 			class="absolute inset-0 z-5 flex items-center justify-center bg-base-300/30"
 			onclick={togglePlay}
-			aria-label="Play video"
+			aria-label="videoyu oynat"
 		>
 			<div class="btn btn-circle btn-lg btn-primary">
 				<svg
@@ -178,8 +178,8 @@
 	<div
 		class="pointer-events-none absolute top-4 right-4 left-4 flex justify-between opacity-0 transition-opacity peer-active:opacity-100"
 	>
-		<div class="badge badge-ghost badge-sm">← prev</div>
-		<div class="badge badge-ghost badge-sm">next →</div>
+		<div class="badge badge-ghost badge-sm">← önceki</div>
+		<div class="badge badge-ghost badge-sm">sonraki →</div>
 	</div>
 </div>
 

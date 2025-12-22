@@ -109,7 +109,7 @@
 
 <svelte:head>
 	<title>vinematik</title>
-	<meta name="description" content="Watch random Vine videos from the archive" />
+	<meta name="description" content="Arşivden rastgele Vine videoları izle" />
 </svelte:head>
 
 <main class="flex min-h-screen w-full flex-col items-center justify-center bg-base-200 p-4">
@@ -139,26 +139,26 @@
 			<div class="hidden flex-wrap justify-center gap-3 text-xs text-base-content/40 sm:flex">
 				<span class="flex items-center gap-1">
 					<kbd class="kbd kbd-xs">←</kbd>
-					prev
+					önceki
 				</span>
 				<span class="flex items-center gap-1">
-					<kbd class="kbd kbd-xs">space</kbd>
-					play/pause
+					<kbd class="kbd kbd-xs">boşluk</kbd>
+					oynat/duraklat
 				</span>
 				<span class="flex items-center gap-1">
 					<kbd class="kbd kbd-xs">r</kbd>
-					random
+					rastgele
 				</span>
 				<span class="flex items-center gap-1">
 					<kbd class="kbd kbd-xs">→</kbd>
-					next
+					sonraki
 				</span>
 			</div>
 			<!-- Swipe hints (mobile) -->
 			<div class="flex flex-wrap justify-center gap-3 text-xs text-base-content/40 sm:hidden">
-				<span>← prev</span>
-				<span>↑ random</span>
-				<span>next →</span>
+				<span>← önceki</span>
+				<span>↑ rastgele</span>
+				<span>sonraki →</span>
 			</div>
 		</div>
 	</div>
