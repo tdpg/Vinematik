@@ -31,7 +31,7 @@
 
 <label
 	class="btn btn-ghost btn-circle btn-sm swap swap-rotate"
-	aria-label="Toggle theme"
+	aria-label="temayı değiştir"
 >
 	<input
 		type="checkbox"
