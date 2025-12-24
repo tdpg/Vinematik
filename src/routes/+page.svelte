@@ -114,7 +114,8 @@
 
 <main class="flex min-h-screen w-full flex-col items-center justify-center bg-base-200 p-4">
 	<div class="flex w-full max-w-2xl flex-col items-center">
-		<Header />
+		<!-- Pass currentVideoId as prop to have it dynamically to share -->
+		<Header {currentVideoId} />
 
 		<div class="flex w-full flex-col items-center gap-4">
 			{#key currentVideoId}
