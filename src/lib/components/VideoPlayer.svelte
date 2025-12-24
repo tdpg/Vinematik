@@ -3,7 +3,7 @@
 	import { swipe } from '$lib/actions/swipe';
 
 	interface Props {
-		videoId: number;
+		videoId: string;
 		onEnded?: () => void;
 		onSwipeLeft?: () => void;
 		onSwipeRight?: () => void;
@@ -12,7 +12,7 @@
 
 	let { videoId, onEnded, onSwipeLeft, onSwipeRight, onSwipeUp }: Props = $props();
 
-	const BASE_URL = 'https://raw.githubusercontent.com/ondersumer07/vinematik-videos/master/vid/';
+	const BASE_URL = 'https://raw.githubusercontent.com/tdpg/vinematik-videos/main/';
 
 	let videoElement: HTMLVideoElement | undefined = $state();
 	let isLoading = $state(true);
@@ -22,7 +22,7 @@
 	let paused = $state(true);
 	let isHovering = $state(false);
 
-	let videoSrc = $derived(`${BASE_URL}${videoId}.mp4`);
+	let videoSrc = $derived(`${BASE_URL}${videoId}`);
 
 	// Show native controls on hover (desktop only)
 	let showControls = $derived(isHovering && !paused && !isLoading && !hasError);
