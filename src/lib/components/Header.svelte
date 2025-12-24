@@ -39,6 +39,7 @@
 
 	// Native share function
 	async function nativeShare() {
+		let urlForNS = 'https://' + shareLink;
 		if (!navigator.share) {
 			// fallback (kopyala ya da toast)
 			return;
@@ -48,7 +49,7 @@
 			await navigator.share({
 				title: 'vinematik',
 				text: 'arşivden sana bir vine!',
-				url: shareLink
+				url: urlForNS
 			});
 		} catch (err) {
 			// kullanıcı iptal ederse hata fırlatır, normal
