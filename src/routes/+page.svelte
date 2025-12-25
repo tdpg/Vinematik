@@ -229,13 +229,50 @@
 	function handleSwipeRight() {
 		if (canGoBack) goBack();
 	}
+
+	// SEO / Social Sharing
+	const siteUrl = 'https://vine.mulayim.app';
+	const ogImage = `${siteUrl}/ogShare.png`;
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
 
 <svelte:head>
 	<title>vinematik</title>
-	<meta name="description" content="Arşivden rastgele Vine videoları izle" />
+	<meta
+		name="description"
+		content="arşivden rastgele vine izleyebileceğiniz, sizi her vinecıyla tanıştırıp eğlenceli vakit geçirmenizi sağlayacak bir vine uygulaması!"
+	/>
+
+	<!-- Keywords -->
+	<meta
+		name="keywords"
+		content="vine, vinematik, vine izle, komik video, aykut elmas, halil ibrahim göker, vine izleme uygulaması, reklamsız vine, sınırsız vine, güncel vine, yeni vine, rastgele vine"
+	/>
+
+	<!-- --- OPEN GRAPH (Facebook, WhatsApp, LinkedIn, Discord) --- -->
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content="vinematik" />
+	<meta property="og:title" content="vinematik | arşivden rastgele vinelar" />
+	<meta
+		property="og:description"
+		content="efsane vine arşivi geri döndü. tek tıkla rastgele vine izle."
+	/>
+	<meta property="og:url" content={$page.url.href} />
+	<meta property="og:image" content={ogImage} />
+
+	<!-- Give image size for faster WhatsApp response -->
+	<meta property="og:image:width" content="512" />
+	<meta property="og:image:height" content="512" />
+
+	<!-- --- TWITTER / X CARDS --- -->
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="vinematik | arşivden rastgele vinelar" />
+	<meta
+		name="twitter:description"
+		content="efsane vine arşivi geri döndü. tek tıkla rastgele vine izle."
+	/>
+	<meta name="twitter:image" content={ogImage} />
 </svelte:head>
 
 <main
