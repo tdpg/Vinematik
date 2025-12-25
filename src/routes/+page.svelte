@@ -63,36 +63,50 @@
 	};
 
 	// --- Random selection with filters ---
-	const pickRandomVine = () => {
-		// A) If nobody is selected, alert and return
-		if (selectedIds.length === 0) {
-			triggerResetToast(); // Nobody is selected toast trigger
-			selectedIds = allCreators.map((c) => c.id); // Select all automatically
-		}
+	// Helper function to get active creators (uses current selectedIds or all if empty)
+	const getActiveCreators = (ids: string[]) => {
+		// If no creators selected, use all creators
+		const effectiveIds = ids.length > 0 ? ids : allCreators.map((c) => c.id);
+		return allCreators.filter((c) => effectiveIds.includes(c.id));
+	};
 
-		// B) Filter selected creators by their id
-		const activeCreators = allCreators.filter((c) => selectedIds.includes(c.id));
+	// Pure function to pick a random vine from given creator list
+	const pickRandomVineFrom = (creators: typeof allCreators) => {
+		// Select a random viner from active creators
+		const randomCreatorIndex = getRandomNumber(0, creators.length - 1);
+		const targetCreator = creators[randomCreatorIndex];
 
-		// C) Select a random viner from active creators
-		const randomCreatorIndex = getRandomNumber(0, activeCreators.length - 1);
-		const targetCreator = activeCreators[randomCreatorIndex];
-
-		// D) Select a random number in the range of that viner
+		// Select a random number in the range of that viner
 		const randomVideoNum = getRandomNumber(1, targetCreator.count);
 
-		// E) Create file name, doesn't need to return as we will use currentVideoSrc directly
-		currentVideoSrc = `${targetCreator.id}${randomVideoNum}.mp4`;
+		// Create file name
+		return `${targetCreator.id}${randomVideoNum}.mp4`;
+	};
+
+	// Wrapper that handles empty selection case with toast
+	const pickRandomVine = () => {
+		// If nobody is selected, show toast and reset to all
+		if (selectedIds.length === 0) {
+			triggerResetToast();
+			selectedIds = allCreators.map((c) => c.id);
+		}
+
+		const activeCreators = getActiveCreators(selectedIds);
+		currentVideoSrc = pickRandomVineFrom(activeCreators);
 		return currentVideoSrc;
 	};
 
 	// --- REACTIVE PRELOADING BASED ON FILTER CHANGES ---
+	// Derived value that reacts to selectedIds changes for preloading
+	// Use untrack to prevent infinite loops when reading preloadedNextId
 	$effect(() => {
-		// selectedIds dependency
-		void selectedIds;
+		// Track selectedIds - when it changes, preload a new video
+		const ids = selectedIds;
 
-		// Update preloadId depending on selected creators
-		if (selectedIds.length > 0) {
-			preloadedNextId = pickRandomVine();
+		// Only preload if we have selections (avoid calling when empty)
+		if (ids.length > 0) {
+			const activeCreators = getActiveCreators(ids);
+			preloadedNextId = pickRandomVineFrom(activeCreators);
 		}
 	});
 
