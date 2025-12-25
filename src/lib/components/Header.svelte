@@ -1,13 +1,14 @@
 <script lang="ts">
 	import ThemeToggle from './ThemeToggle.svelte';
 	import Logo from './Logo.svelte';
+
+	import { page } from '$app/stores';
+
 	// Props because Header is used in +page.svelte, also const is okay since it's dynamic by Svelte.
 	const { currentVideoId } = $props<{ currentVideoId: string }>();
 
-	const shareUrl = `vine.mulayim.app/?`;
-
 	// $derived.by here to recompute when currentVideoId changes.
-	let shareLink = $derived.by(() => `${shareUrl}${currentVideoId.slice(0, -4)}`); // remove .mp4 for cleaner link
+	let shareLink = $derived(`${$page.url.host}/?${currentVideoId.slice(0, -4)}`); // remove .mp4 for cleaner link
 
 	// Copy function, pretty standard
 	let copied = $state(false);
