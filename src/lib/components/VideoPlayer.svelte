@@ -156,7 +156,7 @@
 				/>
 			</svg>
 			<p class="text-base-content/70">video bulunamadı</p>
-			<p class="text-sm text-base-content/50">#{videoId}</p>
+			<p class="text-sm text-base-content/50">#{videoId.slice(0, -4)}</p>
 		</div>
 	{/if}
 
@@ -166,7 +166,7 @@
 
 <!-- Video ID badge -->
 <div class="mt-3 flex justify-center">
-	<div class="badge badge-neutral">#{videoId}</div>
+	<div class="badge badge-neutral">#{videoId.slice(0, -4)}</div>
 </div>
 
 <style>

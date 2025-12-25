@@ -7,7 +7,7 @@
 	const shareUrl = `vine.mulayim.app/?`;
 
 	// $derived.by here to recompute when currentVideoId changes.
-	let shareLink = $derived.by(() => `${shareUrl}${currentVideoId}`);
+	let shareLink = $derived.by(() => `${shareUrl}${currentVideoId.slice(0, -4)}`); // remove .mp4 for cleaner link
 
 	// Copy function, pretty standard
 	let copied = $state(false);
