@@ -185,5 +185,5 @@
 
 <!-- Video ID badge -->
 <div class="mt-3 badge badge-neutral">
-	#{videoId}
+	#{videoId.slice(0, -4)}
 </div>

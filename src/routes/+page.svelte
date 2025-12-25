@@ -20,15 +20,16 @@
 
 	// Creator list with their video counts
 	const allCreators = [
-		{ id: 'ae', name: 'Aykut Elmas', count: 1099 },
+		{ id: 'ae', name: 'Aykut Elmas', count: 1121 },
+		{ id: 'sd', name: 'Sergen Deve', count: 379 },
 		{ id: 'hig', name: 'Halil İbrahim Göker', count: 134 },
+		{ id: 'kf', name: 'Kontravolta Fevzi', count: 110 },
+		{ id: 'ig', name: 'İlker Gümüşoluk', count: 867 },
+		{ id: 'cg', name: 'Cem Gelinoğlu', count: 244 },
+		{ id: 'uca', name: 'Uğur Can Akgül', count: 218 },
+		{ id: 'ca', name: 'Cihan Akıncı', count: 445 },
 		{ id: 'em', name: 'Emre Mutlu', count: 1098 },
-		{ id: 'ak', name: 'Ahmet Karya', count: 60 },
-		{ id: 'ca', name: 'Cihan Akıncı', count: 90 },
-		{ id: 'ig', name: 'İlker Gümüşoluk', count: 55 },
-		{ id: 'cg', name: 'Cem Gelinoğlu', count: 40 },
-		{ id: 'sd', name: 'Sergen Deve', count: 373 },
-		{ id: 'uca', name: 'Uğur Can Akgül', count: 35 }
+		{ id: 'ak', name: 'Ahmet Karya', count: 585 }
 	];
 
 	let selectedIds = $state(allCreators.map((c) => c.id));
@@ -83,6 +84,17 @@
 		currentVideoSrc = `${targetCreator.id}${randomVideoNum}.mp4`;
 		return currentVideoSrc;
 	};
+
+	// --- REACTIVE PRELOADING BASED ON FILTER CHANGES ---
+	$effect(() => {
+		// selectedIds dependency
+		void selectedIds;
+
+		// Update preloadId depending on selected creators
+		if (selectedIds.length > 0) {
+			preloadedNextId = pickRandomVine();
+		}
+	});
 
 	// END OF CHANGES
 
@@ -215,14 +227,6 @@
 				<div class="flex w-full justify-center sm:justify-end">
 					<Filter creators={allCreators} bind:selectedIds />
 				</div>
-			</div>
-
-			<!-- Debug: show current video src -->
-			<div class="flex flex-row items-center justify-center gap-4">
-				<div class="badge badge-neutral">
-					#{currentVideoSrc}
-				</div>
-				<button class="btn btn-soft" onclick={pickRandomVine}>test</button>
 			</div>
 
 			<!-- Keyboard hints (desktop) -->
