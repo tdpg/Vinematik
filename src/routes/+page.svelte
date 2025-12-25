@@ -4,6 +4,8 @@
 	import Header from '$lib/components/Header.svelte';
 	import Filter from '$lib/components/Filter.svelte';
 
+	import { page } from '$app/stores';
+
 	// OLD WAY OF GETTING RANDOM VINES
 	const BASE_URL = 'https://raw.githubusercontent.com/tdpg/vinematik-videos/main/';
 
@@ -110,10 +112,37 @@
 		}
 	});
 
+	// --- URL UPDATING ---
+	$effect(() => {
+		if (currentVideoId) {
+			const shortId = currentVideoId.replace('.mp4', '');
+			// Changes URL without refreshing
+			window.history.replaceState(null, '', `?${shortId}`);
+		}
+	});
+
 	// END OF CHANGES
 
+	// Get video from URL
+	function getInitialVideo() {
+		const queryId = $page.url.search.slice(1);
+
+		// Security check to see if the ID is valid
+		// Also check if it's empty or not
+		if (queryId && /^[a-z]+[0-9]+$/i.test(queryId)) {
+			// Add .mp4 extension
+			currentVideoSrc = queryId + '.mp4';
+			return currentVideoSrc;
+		}
+
+		// If no valid query, return a random vine
+		return pickRandomVine();
+	}
+
+	// Initial video on load
+	const initialVideoId = getInitialVideo();
+
 	// History management for back/forth navigation
-	const initialVideoId = pickRandomVine();
 	let history: string[] = $state([initialVideoId]);
 	let historyIndex = $state(0);
 
