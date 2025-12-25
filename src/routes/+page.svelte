@@ -112,52 +112,51 @@
 	<meta name="description" content="Arşivden rastgele Vine videoları izle" />
 </svelte:head>
 
-<main class="flex min-h-screen w-full flex-col items-center justify-center bg-base-200 p-4">
-	<div class="flex w-full max-w-2xl flex-col items-center">
-		<Header />
+<main
+	class="mx-auto flex min-h-screen w-full max-w-2xl flex-col items-center justify-center bg-base-100 p-4"
+>
+	<Header />
+	<div class="flex w-full flex-col items-center gap-4">
+		<VideoPlayer
+			bind:this={videoPlayer}
+			videoId={currentVideoId}
+			onEnded={handleVideoEnded}
+			onSwipeLeft={handleSwipeLeft}
+			onSwipeRight={handleSwipeRight}
+			onSwipeUp={goToRandomVideo}
+		/>
 
-		<div class="flex w-full flex-col items-center gap-4">
-			<VideoPlayer
-				bind:this={videoPlayer}
-				videoId={currentVideoId}
-				onEnded={handleVideoEnded}
-				onSwipeLeft={handleSwipeLeft}
-				onSwipeRight={handleSwipeRight}
-				onSwipeUp={goToRandomVideo}
-			/>
+		<NavigationControls
+			{canGoBack}
+			onPrevious={goBack}
+			onNext={goForwardOrRandom}
+			onRandom={goToRandomVideo}
+		/>
 
-			<NavigationControls
-				{canGoBack}
-				onPrevious={goBack}
-				onNext={goForwardOrRandom}
-				onRandom={goToRandomVideo}
-			/>
-
-			<!-- Keyboard hints (desktop) -->
-			<div class="hidden flex-wrap justify-center gap-3 text-xs text-base-content/40 sm:flex">
-				<span class="flex items-center gap-1">
-					<kbd class="kbd kbd-xs">←</kbd>
-					önceki
-				</span>
-				<span class="flex items-center gap-1">
-					<kbd class="kbd kbd-xs">boşluk</kbd>
-					oynat/duraklat
-				</span>
-				<span class="flex items-center gap-1">
-					<kbd class="kbd kbd-xs">r</kbd>
-					rastgele
-				</span>
-				<span class="flex items-center gap-1">
-					<kbd class="kbd kbd-xs">→</kbd>
-					sonraki
-				</span>
-			</div>
-			<!-- Swipe hints (mobile) -->
-			<div class="flex flex-wrap justify-center gap-3 text-xs text-base-content/40 sm:hidden">
-				<span>← önceki</span>
-				<span>↑ rastgele</span>
-				<span>sonraki →</span>
-			</div>
+		<!-- Keyboard hints (desktop) -->
+		<div class="hidden flex-wrap justify-center gap-3 text-xs text-base-content/40 sm:flex">
+			<span class="flex items-center gap-1">
+				<kbd class="kbd kbd-xs">←</kbd>
+				önceki
+			</span>
+			<span class="flex items-center gap-1">
+				<kbd class="kbd kbd-xs">boşluk</kbd>
+				oynat/duraklat
+			</span>
+			<span class="flex items-center gap-1">
+				<kbd class="kbd kbd-xs">r</kbd>
+				rastgele
+			</span>
+			<span class="flex items-center gap-1">
+				<kbd class="kbd kbd-xs">→</kbd>
+				sonraki
+			</span>
+		</div>
+		<!-- Swipe hints (mobile) -->
+		<div class="flex flex-wrap justify-center gap-3 text-xs text-base-content/40 sm:hidden">
+			<span>← önceki</span>
+			<span>↑ rastgele</span>
+			<span>sonraki →</span>
 		</div>
 	</div>
 </main>

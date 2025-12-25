@@ -1,5 +1,4 @@
 <script lang="ts">
-	// @ts-expect-error - Plyr types are not perfectly compatible with ESM
 	import Plyr from 'plyr';
 	import 'plyr/dist/plyr.css';
 	import { swipe } from '$lib/actions/swipe';
@@ -31,7 +30,7 @@
 			loadSprite: true,
 			iconUrl: 'https://cdn.plyr.io/3.8.3/plyr.svg',
 			// Don't force aspect ratio - let video use its natural dimensions
-			ratio: null,
+			ratio: undefined,
 			// Use our outer container for fullscreen - this persists across source changes!
 			fullscreen: {
 				enabled: true,
@@ -96,7 +95,7 @@
 			setSource(videoId);
 			currentLoadedId = videoId;
 
-			player.play().catch(() => {
+			player.play()?.catch(() => {
 				// Autoplay may be blocked
 			});
 		}
@@ -114,7 +113,7 @@
 			hasError = false;
 			currentLoadedId = videoId;
 			setSource(videoId);
-			player.play().catch(() => {
+			player.play()?.catch(() => {
 				// Autoplay may be blocked
 			});
 		}
@@ -128,7 +127,7 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
 	bind:this={containerElement}
-	class="plyr-container relative aspect-video w-full max-w-2xl overflow-hidden rounded-box bg-base-300 shadow-2xl"
+	class="plyr-container relative mx-auto aspect-video w-full overflow-hidden rounded-box bg-base-100 shadow-2xl"
 	use:swipe={{
 		threshold: 50,
 		timeout: 500,
@@ -138,7 +137,7 @@
 	}}
 >
 	{#if hasError}
-		<div class="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 bg-base-300">
+		<div class="absolute inset-0 z-20 flex flex-col items-center justify-center gap-4 bg-base-100">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				class="h-16 w-16 text-error"
@@ -163,8 +162,8 @@
 </div>
 
 <!-- Video ID badge -->
-<div class="mt-3 badge badge-neutral">
-	#{videoId}
+<div class="mt-3 flex justify-center">
+	<div class="badge badge-neutral">#{videoId}</div>
 </div>
 
 <style>
@@ -174,7 +173,7 @@
 		--plyr-color-main: var(--color-primary);
 
 		/* Video background */
-		--plyr-video-background: var(--color-base-300);
+		--plyr-video-background: var(--color-base-100);
 
 		/* Menu styling */
 		--plyr-menu-background: var(--color-base-200);
