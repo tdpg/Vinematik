@@ -195,65 +195,52 @@
 	<meta name="description" content="Arşivden rastgele Vine videoları izle" />
 </svelte:head>
 
-<main class="flex min-h-screen w-full flex-col items-center justify-center bg-base-200 p-4">
-	<div class="flex w-full max-w-2xl flex-col items-center">
-		<!-- Pass currentVideoId as prop to have it dynamically to share -->
-		<Header {currentVideoId} />
+<main
+	class="mx-auto flex min-h-screen w-full max-w-2xl flex-col items-center justify-center bg-base-100 p-4"
+>
+	<!-- Pass currentVideoId as prop to have it dynamically to share -->
+	<Header {currentVideoId} />
+	<div class="flex w-full flex-col items-center gap-4">
+		<VideoPlayer
+			bind:this={videoPlayer}
+			videoId={currentVideoId}
+			onEnded={handleVideoEnded}
+			onSwipeLeft={handleSwipeLeft}
+			onSwipeRight={handleSwipeRight}
+			onSwipeUp={goToRandomVideo}
+		/>
 
-		<div class="flex w-full flex-col items-center gap-4">
-			{#key currentVideoId}
-				<VideoPlayer
-					bind:this={videoPlayer}
-					videoId={currentVideoId}
-					onEnded={handleVideoEnded}
-					onSwipeLeft={handleSwipeLeft}
-					onSwipeRight={handleSwipeRight}
-					onSwipeUp={goToRandomVideo}
-				/>
-			{/key}
+		<NavigationControls
+			{canGoBack}
+			onPrevious={goBack}
+			onNext={goForwardOrRandom}
+			onRandom={goToRandomVideo}
+		/>
 
-			<div
-				class="flex w-full flex-col items-center gap-4 sm:grid sm:grid-cols-3 sm:items-center sm:gap-0"
-			>
-				<div class="hidden sm:block"></div>
-				<div class="flex justify-center">
-					<NavigationControls
-						{canGoBack}
-						onPrevious={goBack}
-						onNext={goForwardOrRandom}
-						onRandom={goToRandomVideo}
-					/>
-				</div>
-				<div class="flex w-full justify-center sm:justify-end">
-					<Filter creators={allCreators} bind:selectedIds />
-				</div>
-			</div>
-
-			<!-- Keyboard hints (desktop) -->
-			<div class="hidden flex-wrap justify-center gap-3 text-xs text-base-content/40 sm:flex">
-				<span class="flex items-center gap-1">
-					<kbd class="kbd kbd-xs">←</kbd>
-					önceki
-				</span>
-				<span class="flex items-center gap-1">
-					<kbd class="kbd kbd-xs">boşluk</kbd>
-					oynat/duraklat
-				</span>
-				<span class="flex items-center gap-1">
-					<kbd class="kbd kbd-xs">r</kbd>
-					rastgele
-				</span>
-				<span class="flex items-center gap-1">
-					<kbd class="kbd kbd-xs">→</kbd>
-					sonraki
-				</span>
-			</div>
-			<!-- Swipe hints (mobile) -->
-			<div class="flex flex-wrap justify-center gap-3 text-xs text-base-content/40 sm:hidden">
-				<span>← önceki</span>
-				<span>↑ rastgele</span>
-				<span>sonraki →</span>
-			</div>
+		<!-- Keyboard hints (desktop) -->
+		<div class="hidden flex-wrap justify-center gap-3 text-xs text-base-content/40 sm:flex">
+			<span class="flex items-center gap-1">
+				<kbd class="kbd kbd-xs">←</kbd>
+				önceki
+			</span>
+			<span class="flex items-center gap-1">
+				<kbd class="kbd kbd-xs">boşluk</kbd>
+				oynat/duraklat
+			</span>
+			<span class="flex items-center gap-1">
+				<kbd class="kbd kbd-xs">r</kbd>
+				rastgele
+			</span>
+			<span class="flex items-center gap-1">
+				<kbd class="kbd kbd-xs">→</kbd>
+				sonraki
+			</span>
+		</div>
+		<!-- Swipe hints (mobile) -->
+		<div class="flex flex-wrap justify-center gap-3 text-xs text-base-content/40 sm:hidden">
+			<span>← önceki</span>
+			<span>↑ rastgele</span>
+			<span>sonraki →</span>
 		</div>
 	</div>
 	<!-- TOAST Error Message -->
