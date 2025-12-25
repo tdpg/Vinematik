@@ -4,7 +4,7 @@
 	import { swipe } from '$lib/actions/swipe';
 
 	interface Props {
-		videoId: number;
+		videoId: string;
 		onEnded?: () => void;
 		onSwipeLeft?: () => void;
 		onSwipeRight?: () => void;
@@ -13,7 +13,7 @@
 
 	let { videoId, onEnded, onSwipeLeft, onSwipeRight, onSwipeUp }: Props = $props();
 
-	const BASE_URL = 'https://raw.githubusercontent.com/ondersumer07/vinematik-videos/master/vid/';
+	const BASE_URL = 'https://raw.githubusercontent.com/tdpg/vinematik-videos/main/';
 
 	let containerElement: HTMLDivElement | undefined = $state();
 	let player: Plyr | undefined;

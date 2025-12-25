@@ -2,30 +2,113 @@
 	import VideoPlayer from '$lib/components/VideoPlayer.svelte';
 	import NavigationControls from '$lib/components/NavigationControls.svelte';
 	import Header from '$lib/components/Header.svelte';
+	import Filter from '$lib/components/Filter.svelte';
 
-	const TOTAL_VIDEOS = 3970;
-	const BASE_URL = 'https://raw.githubusercontent.com/ondersumer07/vinematik-videos/master/vid/';
+	// OLD WAY OF GETTING RANDOM VINES
+	const BASE_URL = 'https://raw.githubusercontent.com/tdpg/vinematik-videos/main/';
 
-	function getRandomVideoId(exclude?: number): number {
-		let id = Math.floor(Math.random() * TOTAL_VIDEOS) + 1;
-		// Avoid generating the same ID as the excluded one
-		while (exclude !== undefined && id === exclude) {
-			id = Math.floor(Math.random() * TOTAL_VIDEOS) + 1;
+	// NEW WAY OF GETTING RANDOM VINES
+	// Error handling: if no creators are selected, create a toast and select all automatically
+	let showResetToast = $state(false);
+
+	const triggerResetToast = () => {
+		showResetToast = true;
+		setTimeout(() => {
+			showResetToast = false;
+		}, 3000);
+	};
+
+	// Creator list with their video counts
+	const allCreators = [
+		{ id: 'ae', name: 'Aykut Elmas', count: 1121 },
+		{ id: 'sd', name: 'Sergen Deve', count: 379 },
+		{ id: 'hig', name: 'Halil İbrahim Göker', count: 134 },
+		{ id: 'kf', name: 'Kontravolta Fevzi', count: 110 },
+		{ id: 'ig', name: 'İlker Gümüşoluk', count: 867 },
+		{ id: 'cg', name: 'Cem Gelinoğlu', count: 244 },
+		{ id: 'uca', name: 'Uğur Can Akgül', count: 218 },
+		{ id: 'ca', name: 'Cihan Akıncı', count: 445 },
+		{ id: 'em', name: 'Emre Mutlu', count: 1098 },
+		{ id: 'ak', name: 'Ahmet Karya', count: 585 }
+	];
+
+	let selectedIds = $state(allCreators.map((c) => c.id));
+	let currentVideoSrc = $state(''); // NEW currentVideoId
+
+	// Helper random number function
+	const getRandomNumber = (min: number, max: number) => {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	};
+
+	// Toggle creator in an out of the selectedIds array
+	const toggleCreator = (id: string) => {
+		if (selectedIds.includes(id)) {
+			// If already existing, remove
+			selectedIds = selectedIds.filter((item) => item !== id);
+		} else {
+			// If non-existent, add
+			selectedIds = [...selectedIds, id];
 		}
-		return id;
-	}
+	};
+
+	// Select or deselect all creators
+	const toggleAllSelection = () => {
+		if (selectedIds.length > 0) {
+			// If some stuff are selected, deselect all
+			selectedIds = [];
+		} else {
+			// If nothing is selected, select all
+			selectedIds = allCreators.map((c) => c.id);
+		}
+	};
+
+	// --- Random selection with filters ---
+	const pickRandomVine = () => {
+		// A) If nobody is selected, alert and return
+		if (selectedIds.length === 0) {
+			triggerResetToast(); // Nobody is selected toast trigger
+			selectedIds = allCreators.map((c) => c.id); // Select all automatically
+		}
+
+		// B) Filter selected creators by their id
+		const activeCreators = allCreators.filter((c) => selectedIds.includes(c.id));
+
+		// C) Select a random viner from active creators
+		const randomCreatorIndex = getRandomNumber(0, activeCreators.length - 1);
+		const targetCreator = activeCreators[randomCreatorIndex];
+
+		// D) Select a random number in the range of that viner
+		const randomVideoNum = getRandomNumber(1, targetCreator.count);
+
+		// E) Create file name, doesn't need to return as we will use currentVideoSrc directly
+		currentVideoSrc = `${targetCreator.id}${randomVideoNum}.mp4`;
+		return currentVideoSrc;
+	};
+
+	// --- REACTIVE PRELOADING BASED ON FILTER CHANGES ---
+	$effect(() => {
+		// selectedIds dependency
+		void selectedIds;
+
+		// Update preloadId depending on selected creators
+		if (selectedIds.length > 0) {
+			preloadedNextId = pickRandomVine();
+		}
+	});
+
+	// END OF CHANGES
 
 	// History management for back/forth navigation
-	const initialVideoId = getRandomVideoId();
-	let history: number[] = $state([initialVideoId]);
+	const initialVideoId = pickRandomVine();
+	let history: string[] = $state([initialVideoId]);
 	let historyIndex = $state(0);
 
 	// Preloading: always have the next random video ready
 	// This is ONLY for the "random" action, not for history navigation
-	let preloadedNextId = $state(getRandomVideoId(initialVideoId));
+	let preloadedNextId = $state(pickRandomVine());
 
 	let currentVideoId = $derived(history[historyIndex]);
-	let preloadUrl = $derived(`${BASE_URL}${preloadedNextId}.mp4`);
+	let preloadUrl = $derived(`${BASE_URL}${preloadedNextId}`);
 
 	function goToRandomVideo() {
 		// Use the preloaded video ID for instant playback
@@ -34,7 +117,7 @@
 		history = [...history.slice(0, historyIndex + 1), newId];
 		historyIndex = history.length - 1;
 		// Generate the next preload (different from the new current video)
-		preloadedNextId = getRandomVideoId(newId);
+		preloadedNextId = pickRandomVine();
 	}
 
 	function goBack() {
@@ -160,6 +243,29 @@
 			<span>sonraki →</span>
 		</div>
 	</div>
+	<!-- TOAST Error Message -->
+	{#if showResetToast}
+		<div class="toast toast-end toast-top z-50 w-full transition-all duration-300 sm:w-max">
+			<div class="alert alert-error shadow-lg">
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-5 w-5 shrink-0 stroke-current"
+					fill="none"
+					viewBox="0 0 24 24"
+					><path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+					/></svg
+				>
+				<div class="flex flex-col">
+					<h3 class="font-bold">kimse seçili değil!</h3>
+					<div class="text-xs">filtreler otomatik olarak sıfırlandı.</div>
+				</div>
+			</div>
+		</div>
+	{/if}
 </main>
 
 <!-- Preload next random video OUTSIDE the {#key} block so it persists -->

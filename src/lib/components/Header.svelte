@@ -2,7 +2,7 @@
 	import ThemeToggle from './ThemeToggle.svelte';
 	import Logo from './Logo.svelte';
 	// Props because Header is used in +page.svelte, also const is okay since it's dynamic by Svelte.
-	const { currentVideoId } = $props<{ currentVideoId: number }>();
+	const { currentVideoId } = $props<{ currentVideoId: string }>();
 
 	const shareUrl = `vine.mulayim.app/?`;
 
