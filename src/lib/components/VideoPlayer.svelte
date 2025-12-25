@@ -28,7 +28,7 @@
 			clickToPlay: true,
 			resetOnEnd: false,
 			loadSprite: true,
-			iconUrl: 'https://cdn.plyr.io/3.8.3/plyr.svg',
+			iconUrl: '/plyr.svg',
 			// Don't force aspect ratio - let video use its natural dimensions
 			ratio: undefined,
 			// Use our outer container for fullscreen - this persists across source changes!
