@@ -210,12 +210,28 @@
 			onSwipeUp={goToRandomVideo}
 		/>
 
-		<NavigationControls
-			{canGoBack}
-			onPrevious={goBack}
-			onNext={goForwardOrRandom}
-			onRandom={goToRandomVideo}
-		/>
+		<!-- LAYOUT: Mobile (Stack) / Desktop (3-Column Grid) -->
+		<div
+			class="flex w-full flex-col items-center gap-4 sm:grid sm:grid-cols-3 sm:items-center sm:gap-0"
+		>
+			<!-- 1. Left Spacer (Desktop only) to balance the grid -->
+			<div class="hidden sm:block"></div>
+
+			<!-- 2. Center: Navigation Controls -->
+			<div class="flex justify-center">
+				<NavigationControls
+					{canGoBack}
+					onPrevious={goBack}
+					onNext={goForwardOrRandom}
+					onRandom={goToRandomVideo}
+				/>
+			</div>
+
+			<!-- 3. Right: Filter (Right aligned on desktop, centered on mobile) -->
+			<div class="flex w-full justify-center sm:justify-end">
+				<Filter creators={allCreators} bind:selectedIds />
+			</div>
+		</div>
 
 		<!-- Keyboard hints (desktop) -->
 		<div class="hidden flex-wrap justify-center gap-3 text-xs text-base-content/40 sm:flex">

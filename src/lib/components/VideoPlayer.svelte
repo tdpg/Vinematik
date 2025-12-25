@@ -18,7 +18,7 @@
 	let containerElement: HTMLDivElement | undefined = $state();
 	let player: Plyr | undefined;
 	let hasError = $state(false);
-	let currentLoadedId: number | undefined;
+	let currentLoadedId: string | undefined;
 
 	function createPlayer(videoEl: HTMLVideoElement) {
 		return new Plyr(videoEl, {
@@ -59,13 +59,13 @@
 	}
 
 	// Set initial source via Plyr API
-	function setSource(id: number) {
+	function setSource(id: string) {
 		if (!player) return;
 		player.source = {
 			type: 'video',
 			sources: [
 				{
-					src: `${BASE_URL}${id}.mp4`,
+					src: `${BASE_URL}${id}`,
 					type: 'video/mp4'
 				}
 			]
