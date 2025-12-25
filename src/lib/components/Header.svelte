@@ -13,8 +13,9 @@
 	// Copy function, pretty standard
 	let copied = $state(false);
 	async function copyToClipboard() {
+		let linkToCopy = 'https://' + shareLink;
 		try {
-			await navigator.clipboard.writeText(shareLink);
+			await navigator.clipboard.writeText(linkToCopy);
 			copied = true;
 
 			setTimeout(() => {
@@ -27,14 +28,14 @@
 
 	// WhatsApp message function
 	function getWPLink() {
-		const text = `arşivden sana bir vine: ${shareLink}`;
+		const text = `arşivden sana bir vine: https://${shareLink}`;
 		return `https://wa.me/?text=${encodeURIComponent(text)}`;
 	}
 
 	// Tweet function because apparently Twitter doesn't let you DM people without using the API as a security measure
 	function getTWLink() {
 		return `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-			`işte sizin için bir vine: ${shareLink}`
+			`işte sizin için bir vine: https://${shareLink}`
 		)}`;
 	}
 
