@@ -115,7 +115,8 @@
 <main
 	class="mx-auto flex min-h-screen w-full max-w-2xl flex-col items-center justify-center bg-base-100 p-4"
 >
-	<Header />
+	<!-- Pass currentVideoId as prop to have it dynamically to share -->
+	<Header {currentVideoId} />
 	<div class="flex w-full flex-col items-center gap-4">
 		<VideoPlayer
 			bind:this={videoPlayer}
