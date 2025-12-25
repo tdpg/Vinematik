@@ -49,6 +49,7 @@
 		"vitest-browser-svelte": "^2.0.1"
 	},
 	"dependencies": {
+		"@fontsource/poppins": "^5.2.7",
 		"plyr": "^3.8.3"
 	}
 }
