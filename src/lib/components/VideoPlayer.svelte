@@ -109,10 +109,13 @@
 
 	// Handle video ID changes separately
 	$effect(() => {
-		if (player && videoId !== currentLoadedId) {
+		// Track videoId to trigger effect (must be read unconditionally)
+		const newId = videoId;
+
+		if (player && newId !== currentLoadedId) {
 			hasError = false;
-			currentLoadedId = videoId;
-			setSource(videoId);
+			currentLoadedId = newId;
+			setSource(newId);
 			player.play()?.catch(() => {
 				// Autoplay may be blocked
 			});
