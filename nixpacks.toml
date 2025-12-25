@@ -2,13 +2,13 @@
 nixPkgs = ["nodejs_24"]
 
 [phases.install]
-cmds = ["npm ci"]
+cmds = ["npm install"]
 
 [phases.build]
 cmds = ["npm run build"]
 
 [start]
-cmd = "node build/index.js"
+cmd = "node build"
 
 [variables]
 NODE_ENV = "production"
