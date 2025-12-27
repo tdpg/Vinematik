@@ -1,7 +1,7 @@
 <script lang="ts">
 	import ThemeToggle from './ThemeToggle.svelte';
 	import Logo from './Logo.svelte';
-	import { Share, MessageCircle, Twitter, Share2, Link, X } from '@lucide/svelte';
+	import { Share, MessageCircle, Twitter, Share2, Link, X, Copy, Check } from '@lucide/svelte';
 
 	import { page } from '$app/stores';
 
@@ -81,7 +81,7 @@
 
 		<!-- Share modal -->
 		<dialog id="my_modal_3" class="modal">
-			<div class="modal-box w-auto max-w-full">
+			<div class="modal-box w-auto max-w-full min-w-80">
 				<!-- Close button on top right -->
 				<form method="dialog">
 					<button class="btn absolute top-2 right-2 btn-circle btn-ghost btn-sm">
@@ -142,13 +142,15 @@
 						<span class="truncate pr-2 text-xs sm:text-sm">{shareLink}</span>
 						<button
 							onclick={copyToClipboard}
-							class="btn min-w-31 transition-all duration-200 btn-sm sm:btn-md
+							class="btn btn-circle transition-all duration-200 btn-sm sm:btn-md
 			{copied ? 'pointer-events-none btn-success' : ''}"
+							aria-label={copied ? 'kopyalandı' : 'kopyala'}
+							title={copied ? 'kopyalandı' : 'kopyala'}
 						>
 							{#if copied}
-								kopyalandı!
+								<Check class="h-4 w-4" />
 							{:else}
-								kopyala
+								<Copy class="h-4 w-4" />
 							{/if}
 						</button>
 					</div>
