@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { ChevronLeft, RotateCcw, ChevronRight } from '@lucide/svelte';
+
 	interface Props {
 		canGoBack: boolean;
 		onPrevious: () => void;
@@ -18,9 +20,7 @@
 		title="önceki video (←)"
 		aria-label="önceki video"
 	>
-		<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-		</svg>
+		<ChevronLeft class="h-5 w-5" />
 	</button>
 
 	<!-- Random/Shuffle button -->
@@ -30,9 +30,7 @@
 		title="rastgele video (boşluk)"
 		aria-label="rastgele video"
 	>
-		<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-		</svg>
+		<RotateCcw class="h-6 w-6" />
 	</button>
 
 	<!-- Next button (always enabled - goes forward in history or random) -->
@@ -42,8 +40,6 @@
 		title="sonraki video (→)"
 		aria-label="sonraki video"
 	>
-		<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-			<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-		</svg>
+		<ChevronRight class="h-5 w-5" />
 	</button>
 </div>
