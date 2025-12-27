@@ -30,7 +30,7 @@
 		title="rastgele video (boşluk)"
 		aria-label="rastgele video"
 	>
-		<RotateCcw class="h-5 w-5" />
+		<RotateCcw class="h-6 w-6" />
 	</button>
 
 	<!-- Next button (always enabled - goes forward in history or random) -->
