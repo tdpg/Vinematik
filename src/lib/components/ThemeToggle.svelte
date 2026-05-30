@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import * as analytics from '$lib/analytics';
 
 	const LIGHT_THEME = 'vinematik-light';
 	const DARK_THEME = 'vinematik-dark';
@@ -26,6 +27,7 @@
 		const theme = checked ? DARK_THEME : LIGHT_THEME;
 		document.documentElement.setAttribute('data-theme', theme);
 		localStorage.setItem(STORAGE_KEY, theme);
+		analytics.trackThemeChange(checked ? 'dark' : 'light');
 	}
 </script>
 
