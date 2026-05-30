@@ -6,27 +6,29 @@
 	// Ana sayfayla "canlı" olarak senkronize olacak liste
 	export let selectedIds: string[] = [];
 
+	import * as analytics from '$lib/analytics';
+
 	// --- SEÇİM MANTIĞI (Bileşenin içinde kalabilir) ---
 
 	// Toggle creator in an out of the selectedIds array
 	const toggleCreator = (id: string) => {
+		const isSelecting = !selectedIds.includes(id);
 		if (selectedIds.includes(id)) {
-			// If already existing, remove
 			selectedIds = selectedIds.filter((item) => item !== id);
 		} else {
-			// If non-existent, add
 			selectedIds = [...selectedIds, id];
 		}
+		analytics.trackFilterChange(id, isSelecting ? 'select' : 'deselect', selectedIds.length);
 	};
 
 	// Select or deselect all creators
 	const toggleAllSelection = () => {
 		if (selectedIds.length > 0) {
-			// If some stuff are selected, deselect all
 			selectedIds = [];
+			analytics.trackFilterToggleAll('deselect-all', 0);
 		} else {
-			// If nothing is selected, select all
 			selectedIds = creators.map((c) => c.id);
+			analytics.trackFilterToggleAll('select-all', selectedIds.length);
 		}
 	};
 </script>

@@ -6,6 +6,8 @@
 
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import { allCreators } from '$lib/creators';
+	import * as analytics from '$lib/analytics';
 
 	// OLD WAY OF GETTING RANDOM VINES
 	const BASE_URL = 'https://raw.githubusercontent.com/tdpg/vinematik-videos/main/';
@@ -20,20 +22,6 @@
 			showResetToast = false;
 		}, 3000);
 	};
-
-	// Creator list with their video counts
-	const allCreators = [
-		{ id: 'ae', name: 'Aykut Elmas', count: 1121 },
-		{ id: 'sd', name: 'Sergen Deve', count: 379 },
-		{ id: 'hig', name: 'Halil İbrahim Göker', count: 134 },
-		{ id: 'kf', name: 'Kontravolta Fevzi', count: 110 },
-		{ id: 'ig', name: 'İlker Gümüşoluk', count: 867 },
-		{ id: 'cg', name: 'Cem Gelinoğlu', count: 244 },
-		{ id: 'uca', name: 'Uğur Can Akgül', count: 218 },
-		{ id: 'ca', name: 'Cihan Akıncı', count: 445 },
-		{ id: 'em', name: 'Emre Mutlu', count: 1098 },
-		{ id: 'ak', name: 'Ahmet Karya', count: 585 }
-	];
 
 	let selectedIds = $state(allCreators.map((c) => c.id));
 
@@ -136,6 +124,9 @@
 	let historyIndex = $state(0);
 	// Filled on the client (see onMount + the preload $effect) to avoid SSR hydration mismatch
 	let preloadedNextId = $state('');
+	let viewIndex = 0;
+	let lastTrackedView = '';
+	let nextViewSource: analytics.ViewSource = initialVideoId ? 'shared-link' : 'initial';
 
 	// On the client only: if the URL gave us no video, pick the first random one now
 	onMount(() => {
@@ -148,7 +139,28 @@
 	let currentVideoId = $derived(history[historyIndex] ?? '');
 	let preloadUrl = $derived(`${BASE_URL}${preloadedNextId}`);
 
-	function goToRandomVideo() {
+	// Fire a Umami "video-view" event whenever the active video changes (runs on the client only).
+	$effect(() => {
+		const id = currentVideoId;
+		if (!id || id === lastTrackedView) return;
+		lastTrackedView = id;
+		viewIndex += 1;
+		analytics.trackVideoView(id, nextViewSource, viewIndex);
+	});
+
+	// Emit a skip/complete event for the video we are leaving.
+	function leaveCurrentVideo(reason: 'skip' | 'complete') {
+		const id = currentVideoId;
+		if (!id) return;
+		if (reason === 'complete') {
+			analytics.trackVideoCompleted(id);
+		} else {
+			const progress = videoPlayer?.getProgress();
+			analytics.trackVideoSkipped(id, progress?.seconds ?? 0, progress?.percent ?? 0, nextViewSource);
+		}
+	}
+
+	function advanceToRandom() {
 		// Use the preloaded video ID for instant playback
 		const newId = preloadedNextId;
 		// Remove any forward history when going to a new random video
@@ -158,14 +170,24 @@
 		preloadedNextId = pickRandomVine();
 	}
 
+	function goToRandomVideo() {
+		nextViewSource = 'random';
+		leaveCurrentVideo('skip');
+		advanceToRandom();
+	}
+
 	function goBack() {
 		if (historyIndex > 0) {
+			nextViewSource = 'previous';
+			leaveCurrentVideo('skip');
 			historyIndex--;
 		}
 	}
 
 	function goForward() {
 		if (historyIndex < history.length - 1) {
+			nextViewSource = 'next';
+			leaveCurrentVideo('skip');
 			historyIndex++;
 		}
 	}
@@ -211,7 +233,9 @@
 	}
 
 	function handleVideoEnded() {
-		goToRandomVideo();
+		nextViewSource = 'autoplay';
+		leaveCurrentVideo('complete');
+		advanceToRandom();
 	}
 
 	// Swipe handlers

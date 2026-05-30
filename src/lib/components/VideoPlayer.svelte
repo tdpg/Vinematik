@@ -2,6 +2,7 @@
 	import type Plyr from 'plyr';
 	import 'plyr/dist/plyr.css';
 	import { swipe } from '$lib/actions/swipe';
+	import * as analytics from '$lib/analytics';
 
 	interface Props {
 		videoId: string;
@@ -94,6 +95,7 @@
 			player.on('ended', () => onEnded?.());
 			player.on('error', () => {
 				hasError = true;
+				analytics.trackVideoError(currentLoadedId ?? videoId);
 			});
 			player.on('playing', () => {
 				hasError = false;
@@ -133,6 +135,13 @@
 
 	export function togglePlay() {
 		player?.togglePlay();
+	}
+
+	export function getProgress(): { seconds: number; percent: number } {
+		const seconds = player?.currentTime ?? 0;
+		const duration = player?.duration ?? 0;
+		const percent = duration > 0 ? (seconds / duration) * 100 : 0;
+		return { seconds, percent };
 	}
 </script>
 

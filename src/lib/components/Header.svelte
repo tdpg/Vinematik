@@ -4,6 +4,7 @@
 	import { Share, MessageCircle, Twitter, Share2, Link, X, Copy, Check } from '@lucide/svelte';
 
 	import { page } from '$app/stores';
+	import * as analytics from '$lib/analytics';
 
 	// Props because Header is used in +page.svelte, also const is okay since it's dynamic by Svelte.
 	const { currentVideoId } = $props<{ currentVideoId: string }>();
@@ -18,6 +19,7 @@
 		try {
 			await navigator.clipboard.writeText(linkToCopy);
 			copied = true;
+			analytics.trackShare(currentVideoId, 'copy');
 
 			setTimeout(() => {
 				copied = false;
@@ -54,6 +56,7 @@
 				text: 'arşivden sana bir vine!',
 				url: urlForNS
 			});
+			analytics.trackShare(currentVideoId, 'native');
 		} catch (err) {
 			// kullanıcı iptal ederse hata fırlatır, normal
 			console.debug('Paylaşım iptal edildi');
@@ -73,7 +76,10 @@
 		<!-- Share button -->
 		<button
 			class="btn btn-circle btn-ghost btn-sm"
-			onclick={() => (document.getElementById('my_modal_3') as HTMLDialogElement).showModal()}
+			onclick={() => {
+				analytics.trackShareModalOpen(currentVideoId);
+				(document.getElementById('my_modal_3') as HTMLDialogElement).showModal();
+			}}
 			aria-label="paylaş"
 		>
 			<Share class="h-5 w-5" />
@@ -102,6 +108,7 @@
 							<a
 								class="btn btn-circle btn-soft btn-lg"
 								href={getWPLink()}
+								onclick={() => analytics.trackShare(currentVideoId, 'whatsapp')}
 								target="_blank"
 								aria-label="Whatsapp Paylaşım Linki"
 							>
@@ -114,6 +121,7 @@
 							<a
 								class="btn btn-circle btn-soft btn-lg"
 								href={getTWLink()}
+								onclick={() => analytics.trackShare(currentVideoId, 'twitter')}
 								aria-label="X Paylaşım Linki"
 								target="_blank"
 							>
