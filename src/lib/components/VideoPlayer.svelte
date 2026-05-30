@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Plyr from 'plyr';
+	import type Plyr from 'plyr';
 	import 'plyr/dist/plyr.css';
 	import { swipe } from '$lib/actions/swipe';
 
@@ -20,8 +20,9 @@
 	let hasError = $state(false);
 	let currentLoadedId: string | undefined;
 
-	function createPlayer(videoEl: HTMLVideoElement) {
-		return new Plyr(videoEl, {
+	async function createPlayer(videoEl: HTMLVideoElement): Promise<Plyr> {
+		const { default: PlyrCtor } = await import('plyr');
+		return new PlyrCtor(videoEl, {
 			controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
 			keyboard: { focused: true, global: false },
 			hideControls: true,
@@ -80,8 +81,15 @@
 		if (!videoEl) return;
 
 		// First time setup only
-		if (!player) {
-			player = createPlayer(videoEl);
+		if (player) return;
+
+		let destroyed = false;
+		createPlayer(videoEl).then((p) => {
+			if (destroyed) {
+				p.destroy();
+				return;
+			}
+			player = p;
 
 			player.on('ended', () => onEnded?.());
 			player.on('error', () => {
@@ -98,9 +106,10 @@
 			player.play()?.catch(() => {
 				// Autoplay may be blocked
 			});
-		}
+		});
 
 		return () => {
+			destroyed = true;
 			player?.destroy();
 			player = undefined;
 			currentLoadedId = undefined;

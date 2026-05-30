@@ -19,14 +19,14 @@
 		<link rel="apple-touch-icon" sizes="180x180" href="%sveltekit.assets%/apple-touch-icon.png" />
 		<link rel="manifest" href="%sveltekit.assets%/site.webmanifest" />
 
-		<!-- Theme Color -->
-		<meta name="theme-color" content="#191e24" />
+		<!-- Theme Color (varsayılan vinematik-light temasının base-100'ü ile aynı) -->
+		<meta name="theme-color" content="#f5e9db" />
 		<!-- Apple cihazlar için status bar rengi -->
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 		<meta name="apple-mobile-web-app-title" content="vinematik" />
 
 		<!-- --- META --- -->
-		<title>vinematik</title>
+		<title>vinematik | arşivden rastgele vine izle</title>
 		<meta
 			name="description"
 			content="arşivden rastgele vine izleyebileceğiniz, sizi her vinecıyla tanıştırıp eğlenceli vakit geçirmenizi sağlayacak bir vine uygulaması!"
@@ -62,6 +62,20 @@
 		/>
 		<meta name="twitter:image" content="https://vine.mulayim.app/ogShare.png" />
 		<meta name="twitter:url" content="https://vine.mulayim.app/" />
+
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "WebApplication",
+				"name": "vinematik",
+				"url": "https://vine.mulayim.app/",
+				"description": "arşivden rastgele vine izleyebileceğiniz, sizi her vinecıyla tanıştırıp eğlenceli vakit geçirmenizi sağlayacak bir vine uygulaması!",
+				"applicationCategory": "EntertainmentApplication",
+				"operatingSystem": "Web",
+				"inLanguage": "tr",
+				"isAccessibleForFree": true
+			}
+		</script>
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div style="display: contents">%sveltekit.body%</div>
