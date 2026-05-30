@@ -4,6 +4,7 @@
 	import Header from '$lib/components/Header.svelte';
 	import Filter from '$lib/components/Filter.svelte';
 
+	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 
 	// OLD WAY OF GETTING RANDOM VINES
@@ -123,34 +124,30 @@
 
 	// END OF CHANGES
 
-	// Get video from URL
-	function getInitialVideo() {
+	// Deterministic: only reads the URL, no randomness — safe during SSR/hydration
+	function getUrlVideo(): string {
 		const queryId = $page.url.search.slice(1);
-
-		// Security check to see if the ID is valid
-		// Also check if it's empty or not
 		if (queryId && /^[a-z]+[0-9]+$/i.test(queryId)) {
-			// Add .mp4 extension
-			currentVideoSrc = queryId + '.mp4';
-			return currentVideoSrc;
+			return queryId + '.mp4';
 		}
-
-		// If no valid query, return a random vine
-		return pickRandomVine();
+		return '';
 	}
 
-	// Initial video on load
-	const initialVideoId = getInitialVideo();
-
-	// History management for back/forth navigation
-	let history: string[] = $state([initialVideoId]);
+	const initialVideoId = getUrlVideo();
+	let history: string[] = $state(initialVideoId ? [initialVideoId] : []);
 	let historyIndex = $state(0);
+	// Filled on the client (see onMount + the preload $effect) to avoid SSR hydration mismatch
+	let preloadedNextId = $state('');
 
-	// Preloading: always have the next random video ready
-	// This is ONLY for the "random" action, not for history navigation
-	let preloadedNextId = $state(pickRandomVine());
+	// On the client only: if the URL gave us no video, pick the first random one now
+	onMount(() => {
+		if (history.length === 0) {
+			history = [pickRandomVine()];
+			historyIndex = 0;
+		}
+	});
 
-	let currentVideoId = $derived(history[historyIndex]);
+	let currentVideoId = $derived(history[historyIndex] ?? '');
 	let preloadUrl = $derived(`${BASE_URL}${preloadedNextId}`);
 
 	function goToRandomVideo() {
@@ -229,55 +226,14 @@
 	function handleSwipeRight() {
 		if (canGoBack) goBack();
 	}
-
-	// SEO / Social Sharing
-	const siteUrl = 'https://vine.mulayim.app';
-	const ogImage = `${siteUrl}/ogShare.png`;
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
 
-<svelte:head>
-	<title>vinematik</title>
-	<meta
-		name="description"
-		content="arşivden rastgele vine izleyebileceğiniz, sizi her vinecıyla tanıştırıp eğlenceli vakit geçirmenizi sağlayacak bir vine uygulaması!"
-	/>
-
-	<!-- Keywords -->
-	<meta
-		name="keywords"
-		content="vine, vinematik, vine izle, komik video, aykut elmas, halil ibrahim göker, vine izleme uygulaması, reklamsız vine, sınırsız vine, güncel vine, yeni vine, rastgele vine"
-	/>
-
-	<!-- --- OPEN GRAPH (Facebook, WhatsApp, LinkedIn, Discord) --- -->
-	<meta property="og:type" content="website" />
-	<meta property="og:site_name" content="vinematik" />
-	<meta property="og:title" content="vinematik | arşivden rastgele vinelar" />
-	<meta
-		property="og:description"
-		content="efsane vine arşivi geri döndü. tek tıkla rastgele vine izle."
-	/>
-	<meta property="og:url" content={$page.url.href} />
-	<meta property="og:image" content={ogImage} />
-
-	<!-- Give image size for faster WhatsApp response -->
-	<meta property="og:image:width" content="512" />
-	<meta property="og:image:height" content="512" />
-
-	<!-- --- TWITTER / X CARDS --- -->
-	<meta name="twitter:card" content="summary_large_image" />
-	<meta name="twitter:title" content="vinematik | arşivden rastgele vinelar" />
-	<meta
-		name="twitter:description"
-		content="efsane vine arşivi geri döndü. tek tıkla rastgele vine izle."
-	/>
-	<meta name="twitter:image" content={ogImage} />
-</svelte:head>
-
 <main
 	class="mx-auto flex min-h-screen w-full max-w-2xl flex-col items-center justify-center bg-base-100 p-4"
 >
+	<h1 class="sr-only">vinematik — arşivden rastgele vine izle</h1>
 	<!-- Pass currentVideoId as prop to have it dynamically to share -->
 	<Header {currentVideoId} />
 	<div class="flex w-full flex-col items-center gap-4">
@@ -365,5 +321,7 @@
 </main>
 
 <!-- Preload next random video OUTSIDE the {#key} block so it persists -->
-<!-- svelte-ignore a11y_media_has_caption -->
-<video src={preloadUrl} preload="auto" class="hidden" muted></video>
+{#if preloadedNextId}
+	<!-- svelte-ignore a11y_media_has_caption -->
+	<video src={preloadUrl} preload="auto" class="hidden" muted></video>
+{/if}
