@@ -36,7 +36,6 @@
 	];
 
 	let selectedIds = $state(allCreators.map((c) => c.id));
-	let currentVideoSrc = $state(''); // NEW currentVideoId
 
 	// Helper random number function
 	const getRandomNumber = (min: number, max: number) => {
@@ -95,8 +94,7 @@
 		}
 
 		const activeCreators = getActiveCreators(selectedIds);
-		currentVideoSrc = pickRandomVineFrom(activeCreators);
-		return currentVideoSrc;
+		return pickRandomVineFrom(activeCreators);
 	};
 
 	// --- REACTIVE PRELOADING BASED ON FILTER CHANGES ---
